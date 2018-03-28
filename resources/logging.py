@@ -20,8 +20,8 @@ def get_logger(caller):
 
 
 # Find project_dir logging path.
-project_dir = os.path.dirname(os.path.abspath(__file__))
-log_dir = project_dir
+project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+log_dir = os.path.join(project_dir, 'resources/logs')
 if not os.path.exists(log_dir):
     print('Error initializing logging.')
 
