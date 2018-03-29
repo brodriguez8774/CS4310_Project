@@ -3,9 +3,6 @@ Graph/Node classes.
 Will be used as core data representation for program.
 """
 
-# System Imports.
-import types
-
 # User Class Imports.
 from resources import logging
 
@@ -21,7 +18,7 @@ class Graph():
     """
     def __init__(self, *args, **kwargs):
         self.name = None        # Optional name to identify graph.
-        self._nodes = {}        # Dict object of all nodes within graph.
+        self.nodes = {}        # Dict object of all nodes within graph.
         self._auto_counter = 0  # Int to count "nameless" nodes added to graph.
 
         # Attempt to set name.
@@ -44,7 +41,7 @@ class Graph():
         """
         Returns list of all nodes keys in graph.
         """
-        node_list = self._nodes.keys()
+        node_list = self.nodes.keys()
         if self.name is not None:
             logger.info('Graph {0}\'s Node List: {1}'.format(str(self.name), str(node_list)))
         else:
@@ -58,7 +55,7 @@ class Graph():
         :return: Found node.
         """
         try:
-            return self._nodes[key]
+            return self.nodes[key]
         except KeyError:
             logger.warning('Invalid key passed. Cannot locate node in graph.')
             return None
@@ -70,12 +67,12 @@ class Graph():
         new_node = Node(name=name)
         if edges_in is not None or edges_out is not None:
             new_node.add_edge(edges_in, edges_out)
-        if new_node.name is not None:
-            self._nodes[new_node.name] = new_node
-        else:
+        if new_node.name is None:
             count_value = self.auto_count()
             new_node.identifier = count_value
-            self._nodes[count_value] = new_node
+        self.nodes[new_node.identifier] = new_node
+
+        return new_node
 
     def remove_node(self, key):
         """
@@ -85,8 +82,8 @@ class Graph():
         """
         try:
             # Find and remove node from graph.
-            removed_node = self._nodes[key]
-            del self._nodes[key]
+            removed_node = self.nodes[key]
+            del self.nodes[key]
 
             # Find and remove node from all associated "edges_in" lists.
             # First check if removed node even has "edges out".
@@ -108,13 +105,30 @@ class Graph():
         except KeyError:
             logger.warning('Invalid key passed. Cannot remove node from graph.')
 
+    def drop_all_edges(self):
+        """
+        Clears all edges associated with graph's nodes
+        """
+        for key, value in self.nodes.items():
+            node = self.get_node(key)
+            node.edges_in = []
+            node.edges_out = []
+
+    def drop_all_nodes(self):
+        """
+        Removes all nodes and associated edges from graph.
+        """
+        temp_dict = dict(self.nodes)
+        for key, value in temp_dict.items():
+            del self.nodes[key]
+
     def info_string(self, only_name=False, only_edges_in=False, only_edges_out=False):
         """
         Returns information about graph.
         Can set any arg to True to only return info for the related value.
         """
         return_string = ''
-        for node in self._nodes:
+        for node in self.nodes:
             node = self.get_node(node)  # Convert from String object to actual object by calling get_node function.
             return_string += ' { '
             return_string += node.info_string(
@@ -135,6 +149,7 @@ class Node():
         self.identifier = None  # Identifier to identify node within dict. Same as name if name is present.
         self.edges_in = []      # List of all edges leading in to node.
         self.edges_out = []     # List of all edges leading out from node.
+        self.data = None        # Undefined data value for node to hold at a future date.
 
         # Attempt to set name and identifier.
         try:
