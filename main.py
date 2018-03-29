@@ -24,7 +24,8 @@ node_1 = test_graph_1.add_node(edges_in=[node_0, ])
 node_2 = test_graph_1.add_node(edges_in=[node_1, ])
 node_3 = test_graph_1.add_node(edges_in=[node_2, ])
 node_4 = test_graph_1.add_node(edges_in=[node_3, ], edges_out=[node_0, ])
-logger.info(test_graph_1.info_string())
+test_graph_1.sort_edge_count_list()
+# logger.info(test_graph_1.info_string())
 
 # Map graph to visual representation.
 mapper = data_mapping.DataMapping(test_graph_1, None)
@@ -41,6 +42,9 @@ node_1 = test_graph_2.add_node(edges_in=[node_0, ])
 node_2 = test_graph_2.add_node(edges_in=[node_1, ])
 node_3 = test_graph_2.add_node(edges_in=[node_1, node_2, ], edges_out=[node_2, ])
 node_4 = test_graph_2.add_node(edges_in=[node_3, ], edges_out=[node_0, node_2, ])
+
+# Map graph to visual representation.
+test_graph_2.sort_edge_count_list()
 mapper = data_mapping.DataMapping(test_graph_1, test_graph_2)
 mapper.draw_map()
 

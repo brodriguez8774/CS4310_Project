@@ -18,8 +18,9 @@ class Graph():
     """
     def __init__(self, *args, **kwargs):
         self.name = None        # Optional name to identify graph.
-        self.nodes = {}        # Dict object of all nodes within graph.
+        self.nodes = {}         # Dict object of all nodes within graph.
         self._auto_counter = 0  # Int to count "nameless" nodes added to graph.
+        self.edge_count_list = []  # List keeping track of edges each node has.
 
         # Attempt to set name.
         try:
@@ -64,13 +65,17 @@ class Graph():
         """
         Adds new node to graph.
         """
+        # Create node.
         new_node = Node(name=name)
         if edges_in is not None or edges_out is not None:
             new_node.add_edge(edges_in, edges_out)
         if new_node.name is None:
             count_value = self.auto_count()
             new_node.identifier = count_value
+
+        # Add to node dict and edge_count list.
         self.nodes[new_node.identifier] = new_node
+        self.edge_count_list.append(new_node)
 
         return new_node
 
@@ -101,6 +106,9 @@ class Graph():
                     # Find in "edges_out" list and remove.
                     edge_node.remove_edge(edges_out=[removed_node, ])
 
+            # Remove from edge_count list.
+            self.edge_count_list.remove(removed_node)
+
             return removed_node
         except KeyError:
             logger.warning('Invalid key passed. Cannot remove node from graph.')
@@ -121,6 +129,24 @@ class Graph():
         temp_dict = dict(self.nodes)
         for key, value in temp_dict.items():
             del self.nodes[key]
+
+    def sort_edge_count_list(self):
+        """
+        Sorts edge_count list.
+        """
+        # print_string = ''
+        # logger.info('List before sorting: ')
+        # for node in self.edge_count_list:
+        #     print_string += str(node.info_string() + '    ')
+        # logger.info(print_string)
+
+        self.edge_count_list = sorted(self.edge_count_list, key=lambda node: (len(node.edges_in) + len(node.edges_out)), reverse=True)
+
+        # print_string = ''
+        # logger.info('List after sorting: ')
+        # for node in self.edge_count_list:
+        #     print_string += str(node.info_string() + '    ')
+        # logger.info(print_string)
 
     def info_string(self, only_name=False, only_edges_in=False, only_edges_out=False):
         """

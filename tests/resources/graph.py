@@ -87,6 +87,28 @@ class Graph(unittest.TestCase):
         node = self.test_graph.get_node(0)
         self.assertEqual(node.identifier, 0)
 
+    def test_edge_count(self):
+        # Test with no edges.
+        self.assertEqual(self.test_graph.edge_count_list, [])
+
+        # Test with one node.
+        node_0 = self.test_graph.add_node()
+        self.assertEqual(self.test_graph.edge_count_list, [node_0, ])
+
+        # Test multiple nodes.
+        node_1 = self.test_graph.add_node()
+        node_2 = self.test_graph.add_node(edges_in=[node_1, ], edges_out=[node_1, ])
+        node_3 = self.test_graph.add_node(edges_in=[node_2, ], edges_out=[node_1, node_2, ])
+        node_4 = self.test_graph.add_node()
+        node_5 = self.test_graph.add_node(edges_out=[node_4])
+        self.assertEqual(self.test_graph.edge_count_list, [node_0, node_1, node_2, node_3, node_4, node_5, ])
+
+        node_6 = self.test_graph.add_node()
+        self.test_graph.sort_edge_count_list()
+        self.assertEqual(self.test_graph.edge_count_list, [node_0, node_1, node_2, node_3, node_4, node_5, node_6])
+        # Note: The only way (I can find) to check that list is properly sorted is to print before and after, and
+        # manually check.
+
 
 class Node(unittest.TestCase):
     def setUp(self):
