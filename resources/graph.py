@@ -60,15 +60,16 @@ class Graph():
         try:
             return self._nodes[key]
         except KeyError:
-            logger.warn('Invalid key passed. Cannot locate node in graph.')
+            logger.warning('Invalid key passed. Cannot locate node in graph.')
+            return None
 
-    def add_node(self, name=None, edges_to=None, edges_from=None):
+    def add_node(self, name=None, edges_in=None, edges_out=None):
         """
         Adds new node to graph.
         """
         new_node = Node(name=name)
-        if edges_to is not None or edges_from is not None:
-            new_node.add_edge(edges_to, edges_from)
+        if edges_in is not None or edges_out is not None:
+            new_node.add_edge(edges_in, edges_out)
         if new_node.name is not None:
             self._nodes[new_node.name] = new_node
         else:
@@ -87,26 +88,27 @@ class Graph():
             removed_node = self._nodes[key]
             del self._nodes[key]
 
-            # Find and remove node from all associated "edge_to" lists.
-            # First check if removed node even has "edges from".
-            if not removed_node.edges_from:
-                for edge_node in removed_node.edges_from:
-                    # Find in "edge_to" list and remove.
-                    edge_node.edge_to.remove(removed_node)
+            # Find and remove node from all associated "edges_in" lists.
+            # First check if removed node even has "edges out".
+            if removed_node.edges_out:
+                temp_list = list(removed_node.edges_out)
+                for edge_node in temp_list:
+                    # Find in "edges_in" list and remove.
+                    edge_node.remove_edge(edges_in=[removed_node, ])
 
-
-            # Find and remove node from all associated "edge_from" lists.
-            # First check if removed node even has "edges to".
-            if not removed_node.edges_to:
-                for edge_node in removed_node.edges_to:
-                    # Find in "edge_from" list and remove.
-                    edge_node.edge_from.remove(removed_node)
+            # Find and remove node from all associated "edges_out" lists.
+            # First check if removed node even has "edges in".
+            if removed_node.edges_in:
+                temp_list = list(removed_node.edges_in)
+                for edge_node in temp_list:
+                    # Find in "edges_out" list and remove.
+                    edge_node.remove_edge(edges_out=[removed_node, ])
 
             return removed_node
         except KeyError:
-            logger.warn('Invalid key passed. Cannot remove node from graph.')
+            logger.warning('Invalid key passed. Cannot remove node from graph.')
 
-    def info_string(self, only_name=False, only_edges_to=False, only_edges_from=False):
+    def info_string(self, only_name=False, only_edges_in=False, only_edges_out=False):
         """
         Returns information about graph.
         Can set any arg to True to only return info for the related value.
@@ -117,8 +119,8 @@ class Graph():
             return_string += ' { '
             return_string += node.info_string(
                 only_name=only_name,
-                only_edges_to=only_edges_to,
-                only_edges_from=only_edges_from)
+                only_edges_in=only_edges_in,
+                only_edges_out=only_edges_out)
             return_string += ' } '
         return return_string
 
@@ -131,8 +133,8 @@ class Node():
 
         self.name = None        # Optional name to identify node.
         self.identifier = None  # Identifier to identify node within dict. Same as name if name is present.
-        self.edges_to = []      # List of all edges leading to node.
-        self.edges_from = []    # List of all edges leading from node.
+        self.edges_in = []      # List of all edges leading in to node.
+        self.edges_out = []     # List of all edges leading out from node.
 
         # Attempt to set name and identifier.
         try:
@@ -142,49 +144,139 @@ class Node():
             pass
 
     def __str__(self):
-        return '{0}'.format(self._get_name())
+        return '{0}'.format(self.identifier)
 
-    def _get_name(self):
-        """
-        Returns proper name of node.
-        """
-        if self.name is not None:
-            return self.name
-        else:
-            return '{ {0} : {1} }'.format(str(self.edges_to), str(self.edges_from))
-
-    def add_edge(self, edges_to=None, edges_from=None):
+    def add_edge(self, edges_in=None, edges_out=None):
         """
         Adds a edge(s) to node.
-        :param edges_to: New edge(s) leading to node.
-        :param edges_from: New edge(s) leading from node.
+        :param edges_in: New edge(s) leading to node.
+        :param edges_out: New edge(s) leading from node.
         """
         edges_found = False
 
-        # Check if edge_to is populated and of type list.
-        if edges_to is not None and edges_to is list:
-            for edge in edges_to:
-                self.edges_to.append(edge)
+        # Check if edges_in is populated and of type list.
+        if edges_in is not None and isinstance(edges_in, list):
+            for edge_node in edges_in:
+                # Check that list object is of type Node.
+                if isinstance(edge_node, Node):
+                    # Check that edge_node is not self.
+                    if edge_node is not self:
+                        # Finally, check that edge does not already exist in list of connecting edges.
+                        if not edge_node in self.edges_in:
+                            self.edges_in.append(edge_node)
+                            logger.info('Appending node {0} to {1}\'s "edges_in" list.'.format(str(edge_node), str(self)))
+                        else:
+                            logger.info('Node {0} already in "edges_in" list. Skipping add.'.format(str(edge_node)))
+                        if not self in edge_node.edges_out:
+                            edge_node.edges_out.append(self)
+                            logger.info('Appending node {0} to {1}\'s "edges_in" list.'.format(str(self), str(edge_node)))
+                        else:
+                            logger.info('Node {0} already in "edges_out" list. Skipping add.'.format(str(self)))
+                    else:
+                        logger.info('Node {0} attempting to add self as "edges_in". Skipping add.'.format(str(self)))
+                else:
+                    logger.warning('Passed "edges_in" list item {0} is not a Node object. Cannot add.'.format(str(edge_node)))
             edges_found = True
 
-        # Check if edge_from is populated and of type list.
-        if edges_from is not None and edges_to is list:
-            for edge in edges_from:
-                self.edges_from.append(edge)
+        # Check if edges_out is populated and of type list.
+        if edges_out is not None and isinstance(edges_out, list):
+            for edge_node in edges_out:
+                # Check that list object is of type Node.
+                if isinstance(edge_node, Node):
+                    # Check that edge_node is not self.
+                    if edge_node is not self:
+                        # Finally, check that edge does not already exist in connecting edges.
+                        if not edge_node in self.edges_out:
+                            self.edges_out.append(edge_node)
+                            logger.info('Appending node {0} to {1}\'s "edges_in" list.'.format(str(edge_node), str(self)))
+                        else:
+                            logger.info('Node {0} already in "edges_out" list. Skipping add.'.format(str(edge_node)))
+                        if not self in edge_node.edges_in:
+                            edge_node.edges_in.append(self)
+                            logger.info('Appending node {0} to {1}\'s "edges_in" list.'.format(str(self), str(edge_node)))
+                        else:
+                            logger.info('Node {0} already in "edges_in" list. Skipping add.'.format(str(self)))
+                    else:
+                        logger.info('Node {0} attempting to add self as "edges_out". Skipping add.'.format(str(self)))
+                else:
+                    logger.warning('Passed "edges_out" list item {0} is not a Node object. Cannot add.'.format(str(edge_node)))
             edges_found = True
 
         # No valid edges passed. Display warning.
         if edges_found is False:
-            logger.warn('Add edge function called on {0} but no edges passed.'.format(self._get_name()))
+            logger.warning('Add edge function called on {0} but no edges passed.'.format(str(self)))
 
-    def info_string(self, only_name=False, only_edges_to=False, only_edges_from=False):
+    def remove_edge(self, edges_in=None, edges_out=None):
+        """
+        Removes node edge(s).
+        :param edges_in: Edge(s) leading to node.
+        :param edges_out: Edge(s) leading from node.
+        """
+        edges_found = False
+
+        # Check if edges_in is populated and of type list.
+        if edges_in is not None and isinstance(edges_in, list):
+            for edge_node in edges_in:
+                # Check that list object is of type Node.
+                if isinstance(edge_node, Node):
+                    # Check that edge_node is not self.
+                    if edge_node is not self:
+                        try:
+                            self.edges_in.remove(edge_node)
+                        except ValueError:
+                            logger.info('Node {0} is not connected by edge to {1}.'.format(str(edge_node), str(self)))
+                        try:
+                            edge_node.edges_out.remove(self)
+                        except ValueError:
+                            logger.info('Node {0} is not connected by edge to {1}.'.format(str(edge_node), str(self)))
+                    else:
+                        logger.info('Node {0} attempting to remove self from "edges_in". Skipping add.'.format(str(self)))
+                else:
+                    logger.warning('Passed "edges_out" list item {0} is not a Node object. Cannot add.'.format(str(edge_node)))
+            edges_found = True
+
+        # Check if edge_out is populated and of type list.
+        if edges_out is not None and isinstance(edges_out, list):
+            for edge_node in edges_out:
+                # Check that list object is of type Node.
+                if isinstance(edge_node, Node):
+                    # Check that edge_node is not self.
+                    if edge_node is not self:
+                        try:
+                            self.edges_out.remove(edge_node)
+                        except ValueError:
+                            logger.info('Node {0} is not connected by edge to {1}.'.format(str(edge_node), str(self)))
+                        try:
+                            edge_node.edges_in.remove(self)
+                        except ValueError:
+                            logger.info('Node {0} is not connected by edge to {1}.'.format(str(edge_node), str(self)))
+                    else:
+                        logger.info(
+                            'Node {0} attempting to remove self from "edges_out". Skipping add.'.format(str(self)))
+                else:
+                    logger.warning('Passed "edges_out" list item {0} is not a Node object. Cannot add.'.format(str(edge_node)))
+            edges_found = True
+
+        # No valid edges passed. Display warning.
+        if edges_found is False:
+            logger.warning('Remove edge function called on {0} but no edges passed.'.format(str(self)))
+
+    def drop_all_edges(self):
+        """
+        Dirty way to drop all associated edges.
+        Does not affect connected nodes.
+        """
+        self.edges_in = []
+        self.edges_out = []
+
+    def info_string(self, only_name=False, only_edges_in=False, only_edges_out=False):
         """
         Returns information about node.
         Can set any arg to True to only return info for the related value.
         """
         return_string = ''
 
-        if not only_edges_to and not only_edges_from:
+        if not only_edges_in and not only_edges_out:
             # Get name info. If None, then get identifier instead.
             return_string += 'Node: '
             if self.name is not None:
@@ -192,19 +284,26 @@ class Node():
             else:
                 return_string += '{0}'.format(str(self.identifier))
 
-        elif not only_name and not only_edges_from:
-            # Get edges_to list info.
-            if return_string != '':
-                return_string += ' | '
-                return_string += 'Edges To: '
-            return_string += '{0}'.format(str(self.edges_to))
+        if not only_name and not only_edges_out:
+            # Get edges_in list info.
+            if self.edges_in:
+                if return_string != '':
+                    return_string += ' | '
 
-        elif not only_name and not only_edges_to:
-            # Get edges_from list info.
-            if return_string != '':
-                return_string += ' | '
-            return_string += 'Edges From: '
-            return_string += '{0}'.format(str(self.edges_from))
+                return_string += 'Edges To: ['
+                for edge_node in self.edges_in:
+                    return_string += ' {0},'.format(str(edge_node))
+                return_string += ' ]'
+
+        if not only_name and not only_edges_in:
+            # Get edges_out list info.
+            if self.edges_out:
+                if return_string != '':
+                    return_string += ' | '
+
+                return_string += 'Edges From: ['
+                for edge_node in self.edges_out:
+                    return_string += ' {0},'.format(str(edge_node))
+                return_string += ' ]'
 
         return str(return_string)
-
