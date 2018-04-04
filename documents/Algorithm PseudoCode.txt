@@ -7,6 +7,9 @@ The Isomorphism Algorithm compares two graphs and attempts to determine how simi
 There are two major sections to the algorithm.
 
 
+Note: To save space and reduce need of redundant lists, individual nodes will hold algorithm data about themselves when possible.
+    Includes "rank" and "parent" data from "Greatest Constraints First" part of algorithm.
+
 
 Section 1: "Greatest Constraints First"
 
@@ -23,6 +26,7 @@ Section 1: "Greatest Constraints First"
             * V = All nodes currently in graph G.
             * A = All current "suitable"/"valid" nodes, as determined by the algorithm.
                 Defaults to the single node with the most edge connections (maximum degree).
+            * P = List of all parent nodes of "suitable"/"valid" nodes.
             * ??? Idk, some math stuff.
 
         While V
@@ -48,13 +52,18 @@ Section 1: "Greatest Constraints First"
                         Note: For directed graphs, each edge direction counts separately.
 
                 m_rank = (|V_m,vis|,|V_m,neig|,|V_m,unv|)
+
+                u_i = node with the smallest index, in which <m, u_i> exists.
                 m_parent = u_i (what is this?)
+                Append u_i to P.
+                Append m to A.
                 Remove m from V?
 
             end foreach
 
         end while
 
+        Return A and P, which should be the set of all iterate nodes and the set of all associated parent nodes, respectively.
 
 
 Section 2: "Matching"
@@ -69,8 +78,6 @@ Section 2: "Matching"
     Output:
        The set of matches M, between G and H:
             Will consist of nodes in the pattern ((u_1, v_1), (u_2, v_2), ..., (u_n, v_n)) such that every [u ∈ G] and every [v ∈ H].
-
-    Notes: In the algorithm, if any single step fails, it does not go on to the next step(s).
 
     Algorithm:
 

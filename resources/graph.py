@@ -177,6 +177,10 @@ class Node():
         self.edges_out = []     # List of all edges leading out from node.
         self.data = None        # Undefined data value for node to hold at a future date.
 
+        # Node data specific to algorithm.
+        self.rank = None        # "Rank" of node, determined by "greatest constraints first" part of algorithm.
+        self.parent = None      # "Parent" node of node, determined by "greatest constraints first" part of algorithm.
+
         # Attempt to set name and identifier.
         try:
             self.name = kwargs['name']
