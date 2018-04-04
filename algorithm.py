@@ -82,6 +82,7 @@ class Algorithm():
         Attempts to match nodes against target list.
         :return: List of node matches. Each match is a pair of (orig_node, matching_target_node)
         """
+        # TODO: What are parent nodes ever used for?
         matched_nodes = []
 
         copy_list = list(orig_node_list)

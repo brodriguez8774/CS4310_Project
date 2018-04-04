@@ -130,23 +130,13 @@ class Graph():
         for key, value in temp_dict.items():
             del self.nodes[key]
 
-    def sort_edge_count_list(self):
+    def sort_node_edge_lists(self):
         """
         Sorts edge_count list.
         """
-        # print_string = ''
-        # logger.info('List before sorting: ')
-        # for node in self.edge_count_list:
-        #     print_string += str(node.info_string() + '    ')
-        # logger.info(print_string)
-
         self.edge_count_list = sorted(self.edge_count_list, key=lambda node: (len(node.edges_in) + len(node.edges_out)), reverse=True)
-
-        # print_string = ''
-        # logger.info('List after sorting: ')
-        # for node in self.edge_count_list:
-        #     print_string += str(node.info_string() + '    ')
-        # logger.info(print_string)
+        for node in self.edge_count_list:
+            node.sort_edge_lists()
 
     def info_string(self, only_name=False, only_edges_in=False, only_edges_out=False):
         """
@@ -313,6 +303,25 @@ class Node():
         """
         self.edges_in = []
         self.edges_out = []
+
+    def sort_edge_lists(self):
+        """
+        Sorts edges_in and edges_out lists.
+        """
+        # print_string = ''
+        # logger.info('List before sorting: ')
+        # for node in self.edge_count_list:
+        #     print_string += str(node.info_string() + '    ')
+        # logger.info(print_string)
+
+        self.edges_in = sorted(self.edges_in, key=lambda node: (len(node.edges_in) + len(node.edges_out)), reverse=True)
+        self.edges_out = sorted(self.edges_out, key=lambda node: (len(node.edges_in) + len(node.edges_out)), reverse=True)
+
+        # print_string = ''
+        # logger.info('List after sorting: ')
+        # for node in self.edge_count_list:
+        #     print_string += str(node.info_string() + '    ')
+        # logger.info(print_string)
 
     def info_string(self, only_name=False, only_edges_in=False, only_edges_out=False):
         """

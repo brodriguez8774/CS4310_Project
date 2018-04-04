@@ -87,27 +87,40 @@ class Graph(unittest.TestCase):
         node = self.test_graph.get_node(0)
         self.assertEqual(node.identifier, 0)
 
-    def test_edge_count(self):
+    def test_edge_count_list(self):
         # Test with no edges.
         self.assertEqual(self.test_graph.edge_count_list, [])
 
         # Test with one node.
         node_0 = self.test_graph.add_node()
-        self.assertEqual(self.test_graph.edge_count_list, [node_0, ])
+        self.assertIn(node_0, self.test_graph.edge_count_list)
+        self.assertEqual(1, len(self.test_graph.edge_count_list))
 
         # Test multiple nodes.
-        node_1 = self.test_graph.add_node()
+        node_1 = self.test_graph.add_node(edges_in=[node_0])
+        self.assertIn(node_1, self.test_graph.edge_count_list)
+        self.assertEqual(2, len(self.test_graph.edge_count_list))
         node_2 = self.test_graph.add_node(edges_in=[node_1, ], edges_out=[node_1, ])
-        node_3 = self.test_graph.add_node(edges_in=[node_2, ], edges_out=[node_1, node_2, ])
+        self.assertIn(node_2, self.test_graph.edge_count_list)
+        self.assertEqual(3, len(self.test_graph.edge_count_list))
+        node_3 = self.test_graph.add_node()
+        self.assertIn(node_3, self.test_graph.edge_count_list)
+        self.assertEqual(4, len(self.test_graph.edge_count_list))
         node_4 = self.test_graph.add_node()
+        self.assertIn(node_4, self.test_graph.edge_count_list)
+        self.assertEqual(5, len(self.test_graph.edge_count_list))
         node_5 = self.test_graph.add_node(edges_out=[node_4])
-        self.assertEqual(self.test_graph.edge_count_list, [node_0, node_1, node_2, node_3, node_4, node_5, ])
+        self.assertIn(node_5, self.test_graph.edge_count_list)
+        self.assertEqual(6, len(self.test_graph.edge_count_list))
 
-        node_6 = self.test_graph.add_node()
-        self.test_graph.sort_edge_count_list()
-        self.assertEqual(self.test_graph.edge_count_list, [node_0, node_1, node_2, node_3, node_4, node_5, node_6])
-        # Note: The only way (I can find) to check that list is properly sorted is to print before and after, and
-        # manually check.
+        node_6 = self.test_graph.add_node(edges_in=[node_2, ], edges_out=[node_1, node_2, ])
+        self.assertIn(node_6, self.test_graph.edge_count_list)
+        self.assertEqual(7, len(self.test_graph.edge_count_list))
+
+        # Test actual list sorting.
+        self.assertEqual(self.test_graph.edge_count_list, [node_0, node_1, node_2, node_3, node_4, node_5, node_6, ])
+        self.test_graph.sort_node_edge_lists()
+        self.assertEqual(self.test_graph.edge_count_list, [node_1, node_2, node_6, node_0, node_4, node_5, node_3, ])
 
 
 class Node(unittest.TestCase):
@@ -188,7 +201,6 @@ class Node(unittest.TestCase):
         self.assertEqual(self.test_node_without_name.edges_in, [])
         self.assertEqual(self.test_node_without_name.edges_out, [self.test_node, ])
 
-
     def test_remove_edges(self):
         self.test_node.add_edge(edges_in=[self.test_node_with_name, ])
         self.test_node.add_edge(edges_in=[self.test_node_without_name, ])
@@ -248,7 +260,6 @@ class Node(unittest.TestCase):
             edges_in=[self.test_node_with_name, self.test_node_without_name,],
             edges_out=[self.test_node_with_name]
         )
-
 
     def test_info_string(self):
         # Test node with no edges.
