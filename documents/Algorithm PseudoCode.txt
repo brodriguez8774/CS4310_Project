@@ -1,0 +1,95 @@
+
+The Isomorphism Algorithm
+
+
+The Isomorphism Algorithm compares two graphs and attempts to determine how similar/disimilar they are. (Or does it only test if they're exactly identical? Not sure.)
+
+There are two major sections to the algorithm.
+
+
+
+Section 1: "Greatest Constraints First"
+
+    Input: A graph G containing assorted nodes and edges.
+
+    Output:
+        * An ordered list O, containing nodes [node_1, node_2, ..., node_n]
+        * An ordered list P, containing parents of pattern nodes [p(node_1), p(node_2), ..., p(node_n)]
+
+    Algorithm:
+        * First select the node in the tree with the most edge connections (maximum degree).
+
+        Define the following variables:
+            * V = All nodes currently in graph G.
+            * A = All current "suitable"/"valid" nodes, as determined by the algorithm.
+                Defaults to the single node with the most edge connections (maximum degree).
+            * ??? Idk, some math stuff.
+
+        While V
+
+            foreach element m in V
+
+                1) * Find the set of all nodes in A which are also connected neighbors to m.
+                   - Define this as V_m,visitor or V_m,vis for short.
+                2) * Find the set of all nodes in A which is a neighbor outside of A, but said neighbor is connected
+                neighbors to m.
+                   - Define this as V_m,neighbor or V_m,neig for short.
+                3) * Find the set of all nodes which are not in A, nor neighbors of any nodes in A, but still connected
+                 neighbors to m.
+                    - Define this as V_m,unvisited or V_m,unv
+
+                4) * Associate a "lexicographic score" based on the above values.
+                   * For example, when comparing two nodes a and b, a will have scored higher if (in order of importance, based on list lengths):
+                        * V_a,vis > V_b,vis
+                        * V_a,vis = V_b,vis AND V_a,neig > V_b,neig
+                        * V_a,vis = V_b,vis AND V_a,neig = V_b,neig AND V_a,unv > V_b,unv
+                        For any two nodes that tie, then choose one arbitrarily and keep track of the other as "next in line".
+
+                        Note: For directed graphs, each edge direction counts separately.
+
+                m_rank = (|V_m,vis|,|V_m,neig|,|V_m,unv|)
+                m_parent = u_i (what is this?)
+                Remove m from V?
+
+            end foreach
+
+        end while
+
+
+
+Section 2: "Matching"
+
+    Input:
+        * An "original" graph G containing assorted nodes and edges.
+        * A "target" or "comparison" graph H, also containing assorted nodes and edges.
+        * The ordered list A, from above.
+        * The ordered list P, containing "parent" nodes of A (Parent is defined as "a given u_i where i is the 'smallest index' that gives a valid <u, a> edge match"?)
+        * "The isomorphism conditions" (What does this even mean?)
+
+    Output:
+       The set of matches M, between G and H:
+            Will consist of nodes in the pattern ((u_1, v_1), (u_2, v_2), ..., (u_n, v_n)) such that every [u ∈ G] and every [v ∈ H].
+
+    Notes: In the algorithm, if any single step fails, it does not go on to the next step(s).
+
+    Algorithm:
+
+        define a set of "matched paths", denoted as M. Defaults to empty.
+
+        foreach "original" node, g
+
+            foreach "target"/"comparison" node, h
+
+                If any of the following are fail, discard and move on to next node:
+                    * Check that neither g nor h aleady has been matched in current path.
+                    * Check that "verticies are compatible"? (What does this mean?)
+                    * Check that number of edge connections (both in and out, separately) in h are greater than or equal to the number of edge connections in g.
+                    * Check that h meets all other constraints derived from the equivalent node g. (Isn't this already covered by the above 3 steps?)
+
+                If all tests pass, then add h to the current set of found matches.
+
+            end for
+
+        end foreach
+
+        Return all matching nodes, defined as M. This is your isomorphic subset. If none, return null.
