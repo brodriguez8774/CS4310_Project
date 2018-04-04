@@ -14,8 +14,11 @@ IE: How similar or disimilar two graphs are.
 This is a NP-Complete problem and as such, is expected to have exponential growth more data is iterated through.
 
 
-## Languages
+## Reference Paper
+The offical, published paper which was referenced for this project can be located at
+https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-14-S7-S13
 
+## Languages
 Created in Python.
 
 Networkx/Matplotlib extensions used for visual representation.
