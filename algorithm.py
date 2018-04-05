@@ -2,6 +2,13 @@
 Attempt at Isomorphism algorithm.
 """
 
+# User Class Imports.
+from resources import logging
+
+
+# Initialize logging.
+logger = logging.get_logger(__name__)
+
 
 class Algorithm():
     """
@@ -11,10 +18,10 @@ class Algorithm():
         """
         Attempts to define the "greatest constraints" for passed node list.
         :param node_list_by_edge_count: List of all nodes, sorted by number of edges per node.
-        :return: Edge-sorted node list. ...Seems redundant?
+        :return: Ranking list.
         """
         # Ensure list has at least 2 node values. Otherwise nothing to compare.
-        if len(node_list_by_edge_count) > 2:
+        if len(node_list_by_edge_count) < 2:
             return node_list_by_edge_count
 
         iterated_nodes = []
@@ -22,21 +29,40 @@ class Algorithm():
 
         copy_list = list(node_list_by_edge_count)
         copy_list.pop(0)
+        node_list_by_edge_count[0].rank = [[],[],[]]
+
+        vis_list = []
+        neig_list = []
+        unv_list = []
 
         # Iterate through all remaining nodes and get score values.
         for current_node in copy_list:
 
-            vis_list = []
-            neig_list = []
-            unv_list = []
+            relationship_determined = False
+
+            # vis_list = []
+            # neig_list = []
+            # unv_list = []
 
             # Iterate through all of node's connections in.
             for edge_in in current_node.edges_in:
+
+                # Check that relationship has not been determined.
+                if relationship_determined:
+                    break
+
                 # Iterate through all elements in iterated_nodes list.
                 for iterated_node in iterated_nodes:
+
+                    # Check that relationship has not been determined.
+                    if relationship_determined:
+                        break
+
                     # Check if edge and iterated the same. If so, append current to vis_list and skip other checks.
                     if edge_in == iterated_node:
                         vis_list.append(current_node)
+                        relationship_determined = True
+                        break
                     else:
                         # Check if edge has connection to iterated. If so, append current to neig_list and skip other checks.
 
@@ -44,18 +70,34 @@ class Algorithm():
                         for neigh_edge in edge_in.edges_in:
                             if neigh_edge == iterated_node:
                                 neig_list.append(current_node)
+                                relationship_determined = True
+                                break
                         # Iterate through all neighbor edges out.
                         for neigh_edge in edge_in.edges_out:
                             if neigh_edge == iterated_node:
                                 neig_list.append(current_node)
+                                relationship_determined = True
+                                break
 
             # Iterate through all of node's connections out.
             for edge_out in current_node.edges_out:
+
+                # Check that relationship has not been determined.
+                if relationship_determined:
+                    break
+
                 # Iterate through all elements in iterated_nodes list.
                 for iterated_node in iterated_nodes:
+
+                    # Check that relationship has not been determined.
+                    if relationship_determined:
+                        break
+
                     # Check if edge and iterated the same. If so, append current to vis_list and skip other checks.
                     if edge_out == iterated_node:
                         vis_list.append(current_node)
+                        relationship_determined = True
+                        break
                     else:
                         # Check if edge has connection to iterated. If so, append current to neig_list and skip other checks.
 
@@ -63,19 +105,34 @@ class Algorithm():
                         for neigh_edge in edge_out.edges_in:
                             if neigh_edge == iterated_node:
                                 neig_list.append(current_node)
+                                relationship_determined = True
+                                break
                         # Iterate through all neighbor edges out.
                         for neigh_edge in edge_out.edges_out:
                             if neigh_edge == iterated_node:
                                 neig_list.append(current_node)
+                                relationship_determined = True
+                                break
 
-            current_node.rank = [vis_list, neig_list, unv_list]
+            # Did not meet criteria for above checks. Append to "unvisited" list.
+            if not relationship_determined:
+                unv_list.append(current_node)
+
+            iterated_nodes.append(current_node)
+
+            logger.info('Node: {0}'.format(current_node))
+            logger.info('vis_list: {0}'.format(vis_list))
+            logger.info('neig_list: {0}'.format(neig_list))
+            logger.info('unv_list: {0}'.format(unv_list))
+            ranking = [vis_list, neig_list, unv_list]
+            # logger.info('Rank: {0}'.format(current_node.rank))
 
             # Get parent of current node. Defined as node with smallest "index" and valid connection to current node.
             # TODO: Is "index" defined as index in edge_count list, or index of overall graph?? Does it even matter?
             current_node.parent = current_node.edges_in[0]  # First node should have the lowest respective index.
 
         # Return original nodelist. Each node should now have the associated data as determined by this algorithm.
-        return node_list_by_edge_count
+        return ranking
 
     def Matching(self, orig_node_list, parent_list, target_list):
         """
@@ -100,10 +157,10 @@ class Algorithm():
                     break
 
                 # Check that "verticies are compatible".
-                # TODO: Not sure what to do here. Does this just mean they're identical?
+                # TODO: Not sure what to do here. Does this just mean "check if nodes are identical"?
 
                 # Check that "constraints from topology of pattern graph to this point are met."
-                # TODO: Not sure what to do here. Again, does it mean they're identical...?
+                # TODO: Not sure what to do here. Again, does it mean "check if nodes are identical"...?
 
                 # If it got this far, then is a valid match. Add to list of matches.
                 matched_nodes.append([orig_node, target_node])

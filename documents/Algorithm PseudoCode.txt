@@ -33,14 +33,17 @@ Section 1: "Greatest Constraints First"
 
             foreach element m in V
 
-                1) * Find the set of all nodes in A which are also connected neighbors to m.
+                1) * Find the set of all nodes in A which are directly connected neighbors to m.
+                   * Aka, directly connected to A by one or more edges.
                    - Define this as V_m,visitor or V_m,vis for short.
-                2) * Find the set of all nodes in A which is a neighbor outside of A, but said neighbor is connected
+                2) * Find the set of all nodes in A which has a neighbor outside of A, but said neighbor is connected
                 neighbors to m.
+                   * Aka, indirectly connected to A by one node difference.
                    - Define this as V_m,neighbor or V_m,neig for short.
                 3) * Find the set of all nodes which are not in A, nor neighbors of any nodes in A, but still connected
                  neighbors to m.
-                    - Define this as V_m,unvisited or V_m,unv
+                   * Aka, neither of the above, but still connected to m.
+                   - Define this as V_m,unvisited or V_m,unv
 
                 4) * Associate a "lexicographic score" based on the above values.
                    * For example, when comparing two nodes a and b, a will have scored higher if (in order of importance, based on list lengths):
@@ -91,7 +94,7 @@ Section 2: "Matching"
                     * Check that neither g nor h aleady has been matched in current path.
                     * Check that "verticies are compatible"? (What does this mean?)
                     * Check that number of edge connections (both in and out, separately) in h are greater than or equal to the number of edge connections in g.
-                    * Check that h meets all other constraints derived from the equivalent node g. (Isn't this already covered by the above 3 steps?)
+                    * Check that "constraints deriving from topology of the pattern graph are met". (Isn't this already covered by the above 3 steps, if it is what I think it is?)
 
                 If all tests pass, then add h to the current set of found matches.
 

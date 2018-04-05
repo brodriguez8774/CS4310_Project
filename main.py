@@ -25,7 +25,6 @@ node_2 = test_graph_1.add_node(edges_in=[node_1, ])
 node_3 = test_graph_1.add_node(edges_in=[node_2, ])
 node_4 = test_graph_1.add_node(edges_in=[node_3, ], edges_out=[node_0, ])
 test_graph_1.sort_node_edge_lists()
-# logger.info(test_graph_1.info_string())
 
 # Map graph to visual representation.
 mapper = data_mapping.DataMapping(test_graph_1, None)
