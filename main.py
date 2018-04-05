@@ -27,8 +27,8 @@ node_4 = test_graph_1.add_node(edges_in=[node_3, ], edges_out=[node_0, ])
 test_graph_1.sort_node_edge_lists()
 
 # Map graph to visual representation.
-mapper = data_mapping.DataMapping(test_graph_1, None)
-mapper.draw_map()
+# mapper = data_mapping.DataMapping(test_graph_1, None)
+# mapper.draw_map()
 
 
 # Reset graph connections.
@@ -41,6 +41,8 @@ node_1 = test_graph_2.add_node(edges_in=[node_0, ])
 node_2 = test_graph_2.add_node(edges_in=[node_1, ])
 node_3 = test_graph_2.add_node(edges_in=[node_1, node_2, ], edges_out=[node_2, ])
 node_4 = test_graph_2.add_node(edges_in=[node_3, ], edges_out=[node_0, node_2, ])
+# node_5 = test_graph_2.add_node(edges_in=[node_4], edges_out=[node_0, node_3], )
+# node_6 = test_graph_2.add_node(edges_in=[node_4, node_5], edges_out=[node_1], )
 
 # Map graph to visual representation.
 test_graph_2.sort_node_edge_lists()

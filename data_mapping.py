@@ -4,6 +4,7 @@ Maps graphs data to visual representation.
 
 # System Imports.
 from matplotlib import pyplot
+from matplotlib.axes import Axes
 import networkx
 
 # User Class Imports.
@@ -144,6 +145,9 @@ class DataMapping():
             node_size=1500,
             alpha=0.6,
             linewidths=2,
+
+            vmin=0,
+            vmax=0,
         )
         networkx.draw_networkx_labels(
             self.nx_graph_1,
@@ -233,6 +237,7 @@ class DataMapping():
                 label_dict[node['attr_dict']['node'].identifier] = node['attr_dict']['node'].data
 
 
+            # pyplot.subplot(122)
             # Create graph with new labels.
             networkx.draw_networkx_edges(
                 self.nx_graph_2,
@@ -240,8 +245,38 @@ class DataMapping():
 
                 # Edge settings.
                 edge_color='black',
+                width=2,
                 alpha=0.5,
             )
+            networkx.draw_networkx_nodes(
+                self.nx_graph_2,
+                self.nx_graph_2_position,
+
+                # Node settings.
+                cmap=pyplot.get_cmap('gray'),
+                node_color=[1,1,1,1,1,],
+                node_size=1500,
+                alpha=1,
+                linewidths=2,
+            )
+            networkx.draw_networkx_labels(
+                self.nx_graph_2,
+                self.nx_graph_2_position,
+
+                # Font settings.
+                with_labels=True,
+                font_weight='bold',
+                font_color='white',
+                # font_size=24,
+                labels=label_dict,
+            )
+            pyplot.axis('off')
+            pyplot.show()
+
+
+
+            # pyplot.subplot(122)
+            # Create graph with new labels.
             networkx.draw_networkx_nodes(
                 self.nx_graph_2,
                 self.nx_graph_2_position,
@@ -253,6 +288,16 @@ class DataMapping():
                 alpha=0.6,
                 linewidths=2,
             )
+            networkx.draw_networkx_edges(
+                self.nx_graph_2,
+                self.nx_graph_2_position,
+
+                # Edge settings.
+                edge_color='black',
+                # width=5,
+                alpha=0.5,
+                arrows=True,
+            )
             networkx.draw_networkx_labels(
                 self.nx_graph_2,
                 self.nx_graph_2_position,
@@ -261,6 +306,7 @@ class DataMapping():
                 with_labels=True,
                 font_weight='bold',
                 font_color='black',
+                # font_size=24,
                 labels=label_dict,
             )
             pyplot.axis('off')

@@ -29,7 +29,6 @@ class Algorithm():
 
         copy_list = list(node_list_by_edge_count)
         copy_list.pop(0)
-        node_list_by_edge_count[0].rank = [[],[],[]]
 
         vis_list = []
         neig_list = []
@@ -129,7 +128,8 @@ class Algorithm():
 
             # Get parent of current node. Defined as node with smallest "index" and valid connection to current node.
             # TODO: Is "index" defined as index in edge_count list, or index of overall graph?? Does it even matter?
-            current_node.parent = current_node.edges_in[0]  # First node should have the lowest respective index.
+            if current_node.edges_in is not None and current_node.edges_in != []:
+                current_node.parent = current_node.edges_in[0]  # First node should have the lowest respective index.
 
         # Return original nodelist. Each node should now have the associated data as determined by this algorithm.
         return ranking
