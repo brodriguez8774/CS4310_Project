@@ -166,6 +166,7 @@ class Node():
         self.edges_in = []      # List of all edges leading in to node.
         self.edges_out = []     # List of all edges leading out from node.
         self.data = None        # Undefined data value for node to hold at a future date.
+        self.graph_label = None # Label value to show when visually displaying graphs.
 
         # Node data specific to algorithm.
         # self.rank = None        # "Rank" of node, determined by "greatest constraints first" part of algorithm.
@@ -199,12 +200,12 @@ class Node():
                         # Finally, check that edge does not already exist in list of connecting edges.
                         if not edge_node in self.edges_in:
                             self.edges_in.append(edge_node)
-                            logger.info('Appending node {0} to {1}\'s "edges_in" list.'.format(str(edge_node), str(self)))
+                            # logger.info('Appending node {0} to {1}\'s "edges_in" list.'.format(str(edge_node), str(self)))
                         else:
                             logger.info('Node {0} already in "edges_in" list. Skipping add.'.format(str(edge_node)))
                         if not self in edge_node.edges_out:
                             edge_node.edges_out.append(self)
-                            logger.info('Appending node {0} to {1}\'s "edges_in" list.'.format(str(self), str(edge_node)))
+                            # logger.info('Appending node {0} to {1}\'s "edges_in" list.'.format(str(self), str(edge_node)))
                         else:
                             logger.info('Node {0} already in "edges_out" list. Skipping add.'.format(str(self)))
                     else:
@@ -223,12 +224,12 @@ class Node():
                         # Finally, check that edge does not already exist in connecting edges.
                         if not edge_node in self.edges_out:
                             self.edges_out.append(edge_node)
-                            logger.info('Appending node {0} to {1}\'s "edges_in" list.'.format(str(edge_node), str(self)))
+                            # logger.info('Appending node {0} to {1}\'s "edges_in" list.'.format(str(edge_node), str(self)))
                         else:
                             logger.info('Node {0} already in "edges_out" list. Skipping add.'.format(str(edge_node)))
                         if not self in edge_node.edges_in:
                             edge_node.edges_in.append(self)
-                            logger.info('Appending node {0} to {1}\'s "edges_in" list.'.format(str(self), str(edge_node)))
+                            # logger.info('Appending node {0} to {1}\'s "edges_in" list.'.format(str(self), str(edge_node)))
                         else:
                             logger.info('Node {0} already in "edges_in" list. Skipping add.'.format(str(self)))
                     else:

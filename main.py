@@ -41,13 +41,29 @@ node_1 = test_graph_2.add_node(edges_in=[node_0, ])
 node_2 = test_graph_2.add_node(edges_in=[node_1, ])
 node_3 = test_graph_2.add_node(edges_in=[node_1, node_2, ], edges_out=[node_2, ])
 node_4 = test_graph_2.add_node(edges_in=[node_3, ], edges_out=[node_0, node_2, ])
+
 # node_5 = test_graph_2.add_node(edges_in=[node_4], edges_out=[node_0, node_3], )
 # node_6 = test_graph_2.add_node(edges_in=[node_4, node_5], edges_out=[node_1], )
+
+# node_5 = test_graph_2.add_node(edges_in=[node_4, ], )
+# node_6 = test_graph_2.add_node(edges_in=[node_5, ], )
+# node_7 = test_graph_2.add_node(edges_in=[node_6, ], )
+
+# node_7 = test_graph_2.add_node()
 
 # Map graph to visual representation.
 test_graph_2.sort_node_edge_lists()
 mapper = data_mapping.DataMapping(test_graph_1, test_graph_2)
-mapper.draw_map()
+
+# Single maps.
+mapper.draw_bw_map(1, False)
+mapper.draw_color_map(1, False)
+mapper.draw_bw_map(2, False)
+mapper.draw_color_map(2, False)
+
+# Side by side maps.
+mapper.draw_side_by_side_bw_maps(False)
+mapper.draw_side_by_side_color_maps(False)
 
 
 # Program termination and clean up.
