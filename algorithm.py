@@ -46,36 +46,11 @@ class Algorithm():
 
             relationship_determined = False
 
-            # if relationship_determined:
-            #     break
-            # else:
             if not relationship_determined:
                 relationship_determined = self.check_constraints_vis(current_node)
 
-            # if relationship_determined:
-            #     break
-            # else:
             if not relationship_determined:
                 relationship_determined = self.check_constraints_neigh(current_node)
-
-            # # Iterate through all of node's connections in.
-            # for edge_in in current_node.edges_in:
-            #
-            #     # Check that relationship has not been determined.
-            #     if relationship_determined:
-            #         break
-            #     else:
-            #         relationship_determined = self.check_constraints_edge_in(current_node, edge_in)
-            #
-            # # Iterate through all of node's connections out.
-            # for edge_out in current_node.edges_out:
-            #
-            #     # Check that relationship has not been determined.
-            #     if relationship_determined:
-            #         break
-            #     else:
-            #         relationship_determined = self.check_constraints_edge_out(current_node, edge_out)
-
 
             # Did not meet criteria for above checks. Append to "unvisited" list.
             if not relationship_determined:
@@ -175,70 +150,6 @@ class Algorithm():
                         relationship_determined = True
                         break
 
-        return relationship_determined
-
-    def check_constraints_edge_in(self, current_node, edge):
-        """
-        Iterates through inward edges to check for valid relationship.
-        :return: True if relationship is found. False if not.
-        """
-        relationship_determined = False
-
-        # Iterate through all elements in iterated_nodes list.
-        for iterated_node in self.iterated_nodes:
-
-            # Check if edge and iterated the same. If so, append current to vis_list and skip other checks.
-            if edge == iterated_node:
-                self.vis_list.append(current_node)
-                relationship_determined = True
-                break
-            else:
-                # Check if edge has connection to iterated. If so, append current to neig_list and skip other checks.
-
-                # Iterate through all neighbor edges in.
-                for neigh_edge in edge.edges_in:
-                    if neigh_edge == iterated_node:
-                        self.neig_list.append(current_node)
-                        relationship_determined = True
-                        break
-                # Iterate through all neighbor edges out.
-                for neigh_edge in edge.edges_out:
-                    if neigh_edge == iterated_node:
-                        self.neig_list.append(current_node)
-                        relationship_determined = True
-                        break
-        return relationship_determined
-
-    def check_constraints_edge_out(self, current_node, edge):
-        """
-        Iterates through outward edges to check for valid relationship.
-        :return: True if relationship is found. False if not.
-        """
-        relationship_determined = False
-
-        # Iterate through all elements in iterated_nodes list.
-        for iterated_node in self.iterated_nodes:
-
-            # Check if edge and iterated the same. If so, append current to vis_list and skip other checks.
-            if edge == iterated_node:
-                self.vis_list.append(current_node)
-                relationship_determined = True
-                break
-            else:
-                # Check if edge has connection to iterated. If so, append current to neig_list and skip other checks.
-
-                # Iterate through all neighbor edges in.
-                for neigh_edge in edge.edges_in:
-                    if neigh_edge == iterated_node:
-                        self.neig_list.append(current_node)
-                        relationship_determined = True
-                        break
-                # Iterate through all neighbor edges out.
-                for neigh_edge in edge.edges_out:
-                    if neigh_edge == iterated_node:
-                        self.neig_list.append(current_node)
-                        relationship_determined = True
-                        break
         return relationship_determined
 
     def Matching(self, orig_node_list, parent_list, target_list):
