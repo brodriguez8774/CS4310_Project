@@ -18,16 +18,17 @@ logger = logging.get_logger(__name__)
 logger.info('Starting program.')
 
 
-# Test randomly generated graph.
+# # Test randomly generated graph.
+# random_grapher = randomized_grapher.RandomizedGrapher()
+#
+# a_graph = random_grapher.create_graph()
+# # a_graph = random_grapher.create_graph(min_nodes=2, max_nodes=10, min_edges=0, max_edges=3)
+# # a_graph = random_grapher.create_graph(min_nodes=2, max_nodes=10, edge_complete=True)
+#
+# mapper = data_mapping.DataMapping(a_graph, None)
+# mapper.draw_color_map(1, True)
 
-random_grapher = randomized_grapher.RandomizedGrapher()
 
-a_graph = random_grapher.create_graph()
-# a_graph = random_grapher.create_graph(min_nodes=2, max_nodes=10, min_edges=0, max_edges=3)
-# a_graph = random_grapher.create_graph(min_nodes=2, max_nodes=10, edge_complete=True)
-
-mapper = data_mapping.DataMapping(a_graph, None)
-mapper.draw_color_map(1, True)
 
 # # Create test graph.
 # test_graph_1 = graph.Graph('Test Graph')
@@ -78,6 +79,9 @@ mapper.draw_color_map(1, True)
 # mapper.draw_side_by_side_color_maps(False)
 
 
+
+# Full Algorithm Test.
+graph_1 = graph.Graph()
 
 
 # Program termination and clean up.

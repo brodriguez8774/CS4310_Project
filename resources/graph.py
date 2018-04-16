@@ -61,12 +61,12 @@ class Graph():
             logger.warning('Invalid key passed. Cannot locate node in graph.')
             return None
 
-    def add_node(self, name=None, edges_in=None, edges_out=None):
+    def add_node(self, name=None, data=None, edges_in=None, edges_out=None):
         """
         Adds new node to graph.
         """
         # Create node.
-        new_node = Node(name=name)
+        new_node = Node(name=name, data=data)
         if edges_in is not None or edges_out is not None:
             new_node.add_edge(edges_in, edges_out)
         if new_node.name is None:
@@ -176,6 +176,12 @@ class Node():
         try:
             self.name = kwargs['name']
             self.identifier = self.name
+        except KeyError:
+            pass
+
+        # Attempt to set node data.
+        try:
+            self.data = kwargs['data']
         except KeyError:
             pass
 
