@@ -63,7 +63,7 @@ class Graph():
 
     def add_node(self, name=None, data=None, edges_in=None, edges_out=None):
         """
-        Adds new node to graph.
+        Creates new node and adds to graph.
         """
         # Create node.
         new_node = Node(name=name, data=data)
@@ -78,6 +78,23 @@ class Graph():
         self.edge_count_list.append(new_node)
 
         return new_node
+
+    def append_node(self, new_node):
+        """
+        Takes in already created node object and adds to graph.
+        :param new_node: Instance of a graph.Node class object.
+        """
+        if new_node.identifier in self.nodes:
+            curr_node = self.nodes[new_node.identifier]
+            logger.info('New Node Data: {0}'.format(new_node.data))
+            logger.info('Current Node Data: {0}'.format(curr_node.data))
+            if new_node.data == curr_node.data and new_node.edges_in == curr_node.edges_in and new_node.edges_out == curr_node.edges_out:
+                logger.warning('Identical node already exists in dictionary.')
+            else:
+                logger.warning('Node with identifier already exists in dictionary.')
+        else:
+            self.nodes[new_node.identifier] = new_node
+            self.edge_count_list.append(new_node)
 
     def remove_node(self, key):
         """

@@ -30,6 +30,19 @@ logger.info('Starting program.')
 
 
 
+# # Test randomly generated graph that was copied from an original.
+# random_grapher = randomized_grapher.RandomizedGrapher()
+#
+# a_graph_1 = random_grapher.create_graph(min_nodes=2, max_nodes=10, min_edges=0, max_edges=3)
+# a_graph_2 = graph.Graph()
+# for key, value in a_graph_1.nodes.items():
+#     a_graph_2.append_node(value)
+#
+# mapper = data_mapping.DataMapping(a_graph_2, None)
+# mapper.draw_color_map(1, True)
+
+
+
 # # Create test graph.
 # test_graph_1 = graph.Graph('Test Graph')
 # node_0 = test_graph_1.add_node()

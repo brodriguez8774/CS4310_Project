@@ -418,7 +418,7 @@ class AlgorithmMatching(unittest.TestCase):
         self.assertIn(graph_1_node_2, match_list[2])
         self.assertIn(graph_2_node_2, match_list[2])
 
-    def test_two_nodes_equal_with_all_edge(self):
+    def test_three_nodes_equal_with_all_edge(self):
         # Create nodes with name and data for graph 1.
         graph_1_node_0 = self.graph_1.add_node(name='Node_0', data=0)
         graph_1_node_1 = self.graph_1.add_node(name='Node_1', data=1, edges_in=[graph_1_node_0, ], edges_out=[graph_1_node_0, ])
@@ -542,7 +542,7 @@ class AlgorithmMatching(unittest.TestCase):
         self.assertIn(graph_1_node_0, match_list[0])
         self.assertIn(graph_2_node_0, match_list[0])
 
-    def test_two_nodes_bad_edges_out(self):
+    def test_three_nodes_bad_edges_out(self):
         # Create nodes with name and data for graph 1.
         graph_1_node_0 = self.graph_1.add_node(name='Node_0', data=0)
         graph_1_node_1 = self.graph_1.add_node(name='Node_1', data=1, edges_in=[graph_1_node_0, ], edges_out=[graph_1_node_0, ])
