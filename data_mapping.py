@@ -85,7 +85,9 @@ class DataMapping():
         else:
             self.nx_graph_2 = None
 
-    def create_color_mapping(self, nx_graph):
+    #region Graph Initialization Methods
+
+    def create_edge_count_color_mapping(self, nx_graph):
         """
         Creates a color mapping list (for drawing the provided graph).
         Index of each mapping should equate the the equivalent index in the graph.
@@ -117,10 +119,37 @@ class DataMapping():
 
         return value_map
 
-    def create_graph_labels(self, graph_number):
+    def create_node_match_mapping(self):
         """
-        Creates labels for graph.
-        :return:
+        Creates a color mapping list based off node matching.
+        :return: Color mapping lists of integer values. 0 for miss or 1 for match.
+        """
+        logger.info('Starting match color mapping.')
+        value_map_1 = []
+        for node in self.nx_graph_1.nodes():
+            # logger.info(self.backend_graph_1.get_node(node).graph_match)
+
+            if self.backend_graph_1.get_node(node).graph_match:
+                value_map_1.append(1)
+            else:
+                value_map_1.append(0)
+
+        value_map_2 = []
+        for node in self.nx_graph_2.nodes():
+            # logger.info(self.backend_graph_2.get_node(node).graph_match)
+
+            if self.backend_graph_2.get_node(node).graph_match:
+                value_map_2.append(1)
+            else:
+                value_map_2.append(0)
+
+        return [value_map_1, value_map_2]
+
+
+    def create_vis_labels(self, graph_number):
+        """
+        Creates vis/neigh/unvis labels for graph.
+        :return: The created labels.
         """
         if graph_number == 1:
             nx_graph = self.nx_graph_1
@@ -136,21 +165,68 @@ class DataMapping():
 
         # Set graph labels based off of associated ranking type.
         for visitor in node_ranking[0]:
-            nx_graph.nodes[visitor.identifier]['attr_dict']['node'].data = 'vis'
+            nx_graph.nodes[visitor.identifier]['attr_dict']['node'].graph_label = 'vis'
 
         for neighbor in node_ranking[1]:
-            nx_graph.nodes[neighbor.identifier]['attr_dict']['node'].data = 'neigh'
+            nx_graph.nodes[neighbor.identifier]['attr_dict']['node'].graph_label = 'neigh'
 
         for unvisited in node_ranking[2]:
-            nx_graph.nodes[unvisited.identifier]['attr_dict']['node'].data = 'unvis'
+            nx_graph.nodes[unvisited.identifier]['attr_dict']['node'].graph_label = 'unvis'
 
         # Actually set label dict based on data value.
         label_dict = {}
-        backend_graph.edge_count_list[0].data = 'root'
+        backend_graph.edge_count_list[0].graph_label = 'root'
         for node in nx_graph.nodes().values():
-            label_dict[node['attr_dict']['node'].identifier] = node['attr_dict']['node'].data
+            label_dict[node['attr_dict']['node'].identifier] = node['attr_dict']['node'].graph_label
 
         return label_dict
+
+    def create_match_labels(self, match_list):
+        """
+        Creates node match labels for graph.
+        :return: The created labels and color mapping, in a [graph_1_labels, graph_2_labels] list.
+        """
+        # logger.info('Creating match labels.')
+        index = 0
+        label_set_1 = {}
+        label_set_2 = {}
+        graph_node_set_1 = list(self.backend_graph_1.nodes.values())
+        graph_node_set_2 = list(self.backend_graph_2.nodes.values())
+
+        # logger.info('Iterating matched pairs.')
+
+        # Iterate through all match pairs. For each, split the pair and do the following:
+        #   Add to the appropriate label set. Matching nodes should have identical labeling numbers.
+        #   Set the associated backend node "graph_match" value to true. Used later for color_mapping.
+        for match_pair in match_list:
+            label_set_1[match_pair[0].identifier] = index
+            self.backend_graph_1.nodes[match_pair[0].identifier].graph_match = True
+            graph_node_set_1.remove(self.backend_graph_1.nodes[match_pair[0].identifier])
+
+            label_set_2[match_pair[1].identifier] = index
+            self.backend_graph_2.nodes[match_pair[1].identifier].graph_match = True
+            graph_node_set_2.remove(self.backend_graph_2.nodes[match_pair[1].identifier])
+
+            index += 1
+
+        # logger.info('Iterating unmatched pairs.')
+
+        # Iterate through all remaining nodes. These were non-matches.
+        # Add arbitrary index labels starting from value the matches ended at.
+        temp_index = index
+        for node in graph_node_set_1:
+            label_set_1[node.identifier] = temp_index
+            temp_index += 1
+
+        temp_index = index
+        for node in graph_node_set_2:
+            label_set_2[node.identifier] = temp_index
+            temp_index += 1
+
+        # logger.info('Match labels created.')
+
+        return [label_set_1, label_set_2]
+
 
     def log_graph_info(self, graph_number):
         """
@@ -165,12 +241,16 @@ class DataMapping():
 
         logger.info(str(networkx.info(graph)))
 
+    #endregion Graph Initialization Methods
+
+    #region General Graph Mappings
+
     def draw_bw_map(self, graph_number, vis_labels):
         """
         Draws single network map, in greyscale.
         """
         if vis_labels:
-            label_dict = self.create_graph_labels(graph_number)
+            label_dict = self.create_vis_labels(graph_number)
         else:
             label_dict = None
         value_map = []
@@ -226,15 +306,15 @@ class DataMapping():
         Draws single network map, in color.
         """
         if vis_labels:
-            label_dict = self.create_graph_labels(graph_number)
+            label_dict = self.create_vis_labels(graph_number)
         else:
             label_dict = None
         if graph_number == 1:
-            value_map = self.create_color_mapping(self.nx_graph_1)
+            value_map = self.create_edge_count_color_mapping(self.nx_graph_1)
             nx_graph = self.nx_graph_1
             graph_position = self.nx_graph_1_position
         elif graph_number == 2:
-            value_map = self.create_color_mapping(self.nx_graph_2)
+            value_map = self.create_edge_count_color_mapping(self.nx_graph_2)
             nx_graph = self.nx_graph_2
             graph_position = self.nx_graph_2_position
         else:
@@ -281,7 +361,7 @@ class DataMapping():
         Draws network maps side by side, in greyscale.
         """
         if vis_labels:
-            label_dict = self.create_graph_labels(1)
+            label_dict = self.create_vis_labels(1)
         else:
             label_dict = None
         value_map = []
@@ -326,7 +406,7 @@ class DataMapping():
         if self.nx_graph_2 is not None:
             pyplot.subplot(122)
             if vis_labels:
-                label_dict = self.create_graph_labels(2)
+                label_dict = self.create_vis_labels(2)
             else:
                 label_dict = None
             value_map = []
@@ -381,10 +461,10 @@ class DataMapping():
         Draws network maps side by side, with color.
         """
         if vis_labels:
-            label_dict = self.create_graph_labels(1)
+            label_dict = self.create_vis_labels(1)
         else:
             label_dict = None
-        value_map = self.create_color_mapping(self.nx_graph_1)
+        value_map = self.create_edge_count_color_mapping(self.nx_graph_1)
 
         # Create graph 1.
         if self.nx_graph_2 is not None:
@@ -428,10 +508,10 @@ class DataMapping():
         if self.nx_graph_2 is not None:
             pyplot.subplot(122)
             if vis_labels:
-                label_dict = self.create_graph_labels(2)
+                label_dict = self.create_vis_labels(2)
             else:
                 label_dict = None
-            value_map = self.create_color_mapping(self.nx_graph_2)
+            value_map = self.create_edge_count_color_mapping(self.nx_graph_2)
 
             # Create graph 2.
             networkx.draw_networkx_edges(
@@ -464,6 +544,104 @@ class DataMapping():
                 labels=label_dict,
             )
             pyplot.axis('off')
+
+        # Show created graph(s).
+        pyplot.colorbar(node_drawing)
+        pyplot.show()
+
+    #endregion General Graph Mappings
+
+    def draw_matching_comparison(self, match_list):
+        """
+        Draws network maps side by side, with color.
+        """
+        logger.info('Graph 1 Info:')
+        self.log_graph_info(1)
+        logger.info('Graph 2 Info:')
+        self.log_graph_info(2)
+        logger.info('Drawing match comparison...')
+        match_labels = self.create_match_labels(match_list)
+
+        match_label_1 = match_labels[0]
+        match_label_2 = match_labels[1]
+        value_maps = self.create_node_match_mapping()
+        value_map_1 = value_maps[0]
+        value_map_2 = value_maps[1]
+
+        # Create graph 1.
+        pyplot.subplot(121)
+        networkx.draw_networkx_edges(
+            self.nx_graph_1,
+            self.nx_graph_1_position,
+
+            # Edge settings.
+            # edge_color='#606060',
+            edge_color='black',
+            alpha=0.5,
+        )
+        node_drawing = networkx.draw_networkx_nodes(
+            self.nx_graph_1,
+            self.nx_graph_1_position,
+
+            # Node settings.
+            cmap=pyplot.get_cmap('plasma'),
+            node_color=value_map_1,
+            node_size=1500,
+            alpha=0.6,
+            linewidths=2,
+
+            vmin=0,
+            vmax=2,
+        )
+        networkx.draw_networkx_labels(
+            self.nx_graph_1,
+            self.nx_graph_1_position,
+
+            # Font settings.
+            with_labels=True,
+            font_weight='bold',
+            font_color='black',
+            labels=match_label_1,
+        )
+        pyplot.axis('off')
+
+        # Attempt to create graph 2.
+        pyplot.subplot(122)
+
+        # Create graph 2.
+        networkx.draw_networkx_edges(
+            self.nx_graph_2,
+            self.nx_graph_2_position,
+
+            # Edge settings.
+            edge_color='black',
+            alpha=0.5,
+        )
+        networkx.draw_networkx_nodes(
+            self.nx_graph_2,
+            self.nx_graph_2_position,
+
+            # Node settings.
+            cmap=pyplot.get_cmap('plasma'),
+            node_color=value_map_2,
+            node_size=1500,
+            alpha=0.6,
+            linewidths=2,
+
+            vmin=0,
+            vmax=2,
+        )
+        networkx.draw_networkx_labels(
+            self.nx_graph_2,
+            self.nx_graph_2_position,
+
+            # Font settings.
+            with_labels=True,
+            font_weight='bold',
+            font_color='black',
+            labels=match_label_2,
+        )
+        pyplot.axis('off')
 
         # Show created graph(s).
         pyplot.colorbar(node_drawing)

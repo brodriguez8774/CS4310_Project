@@ -35,21 +35,6 @@ class Graph(unittest.TestCase):
         self.assertIn(node_1.identifier, self.test_graph.get_node_keys())
         self.assertIn(node_2.identifier, self.test_graph.get_node_keys())
 
-    def test_append_node(self):
-        test_graph_1 = graph.Graph()
-        test_graph_2 = graph.Graph()
-        node_0 = test_graph_1.add_node(name='Node_0', data=0)
-        node_1 = test_graph_2.add_node(name='Node_0', data=0)
-
-        test_graph_1.append_node(node_1)
-        self.assertEqual(node_0, test_graph_1.nodes[node_0.identifier])
-        self.assertNotEqual(node_1, test_graph_1.nodes[node_1.identifier])
-
-        node_1.data = 1
-        test_graph_1.append_node(node_1)
-        self.assertEqual(node_0, test_graph_1.nodes[node_0.identifier])
-        self.assertNotEqual(node_1, test_graph_1.nodes[node_1.identifier])
-
     def test_remove_node(self):
         # First check that graph is as expected with 3 fully connected nodes.
         self.test_graph.add_node()

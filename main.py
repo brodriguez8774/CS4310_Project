@@ -7,6 +7,7 @@ Core/Start of program.
 
 # User Class Imports.
 from resources import graph, logging, randomized_grapher
+import algorithm as alg
 import data_mapping
 
 
@@ -93,8 +94,53 @@ logger.info('Starting program.')
 
 
 
+
+
+
 # Full Algorithm Test.
-graph_1 = graph.Graph()
+random_grapher = randomized_grapher.RandomizedGrapher()
+algorithm = alg.Algorithm()
+
+# Create graph 1.
+graph_1 = random_grapher.create_graph(min_nodes=2, max_nodes=8, min_edges=1, max_edges=3)
+
+# Create graph 2.
+graph_2 = graph.Graph()
+for key, value in graph_1.nodes.items():
+    graph_2.add_node(node=value)
+
+# Extra values for graph 2.
+a_node = graph_2.get_node(0)
+graph_2.add_node(edges_in=[a_node, ])
+graph_2.add_node()
+
+# Compute first half of algorithm.
+graph_1_ranking = algorithm.greatest_constraints_first(graph_1.edge_count_list)
+graph_2_ranking = algorithm.greatest_constraints_first(graph_2.edge_count_list)
+
+# Format list values.
+graph_1_ranking = algorithm.condense_list(graph_1_ranking)
+graph_2_ranking = algorithm.condense_list(graph_2_ranking)
+
+logger.info('Formatted Graph 1 Ranking: {0}'.format(graph_1_ranking))
+logger.info('Formatted Graph 2 Ranking: {0}'.format(graph_2_ranking))
+
+# Compute second half of algorithm.
+match_list = algorithm.matching(graph_1_ranking, graph_2_ranking)
+
+logger.info('Match List: {0}'.format(match_list))
+
+# Draw data.
+mapper = data_mapping.DataMapping(graph_1, graph_2)
+
+# mapper.draw_side_by_side_color_maps(True)
+mapper.draw_matching_comparison(match_list)
+
+# mapper = data_mapping.DataMapping(a_graph_2, None)
+# mapper.draw_color_map(1, True)
+
+
+
 
 
 # Program termination and clean up.

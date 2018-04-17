@@ -61,14 +61,18 @@ class Graph():
             logger.warning('Invalid key passed. Cannot locate node in graph.')
             return None
 
-    def add_node(self, name=None, data=None, edges_in=None, edges_out=None):
+    def add_node(self, name=None, data=None, edges_in=None, edges_out=None, node=None):
         """
         Creates new node and adds to graph.
         """
         # Create node.
-        new_node = Node(name=name, data=data)
-        if edges_in is not None or edges_out is not None:
-            new_node.add_edge(edges_in, edges_out)
+        if node is not None:
+            new_node = Node(name=node.name, data=node.data)
+            new_node.add_edge(edges_in=node.edges_in, edges_out=node.edges_out)
+        else:
+            new_node = Node(name=name, data=data)
+            if edges_in is not None or edges_out is not None:
+                new_node.add_edge(edges_in, edges_out)
         if new_node.name is None:
             count_value = self.auto_count()
             new_node.identifier = count_value
@@ -78,23 +82,6 @@ class Graph():
         self.edge_count_list.append(new_node)
 
         return new_node
-
-    def append_node(self, new_node):
-        """
-        Takes in already created node object and adds to graph.
-        :param new_node: Instance of a graph.Node class object.
-        """
-        if new_node.identifier in self.nodes:
-            curr_node = self.nodes[new_node.identifier]
-            logger.info('New Node Data: {0}'.format(new_node.data))
-            logger.info('Current Node Data: {0}'.format(curr_node.data))
-            if new_node.data == curr_node.data and new_node.edges_in == curr_node.edges_in and new_node.edges_out == curr_node.edges_out:
-                logger.warning('Identical node already exists in dictionary.')
-            else:
-                logger.warning('Node with identifier already exists in dictionary.')
-        else:
-            self.nodes[new_node.identifier] = new_node
-            self.edge_count_list.append(new_node)
 
     def remove_node(self, key):
         """
@@ -184,6 +171,7 @@ class Node():
         self.edges_out = []     # List of all edges leading out from node.
         self.data = None        # Undefined data value for node to hold at a future date.
         self.graph_label = None # Label value to show when visually displaying graphs.
+        self.graph_match = False # Bool value to show when visually comparing matching of graphs.
 
         # Node data specific to algorithm.
         # self.rank = None        # "Rank" of node, determined by "greatest constraints first" part of algorithm.
