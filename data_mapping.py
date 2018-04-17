@@ -106,15 +106,15 @@ class DataMapping():
                     max_edges = node_edge_count
 
         # Double check that max_edges was properly set. If not, default to 10.
-        if max_edges <= 0:
-            max_edges = 10
+        # if max_edges <= 0:
+        #     max_edges = 10
 
         # Iterate through nodes again and get actual mapping.
         for node_data in nx_graph.nodes().values():
             if node_data != {}:
                 node_edge_count = len(node_data['attr_dict']['node'].edges_in) + len(node_data['attr_dict']['node'].edges_out)
-                while node_edge_count > 1:
-                    node_edge_count = (node_edge_count / max_edges)
+                # while node_edge_count > 1:
+                #     node_edge_count = (node_edge_count / max_edges)
                 value_map.append(node_edge_count)
 
         return value_map
@@ -272,13 +272,19 @@ class DataMapping():
         if value_map is None:
             value_map = self.create_edge_count_color_mapping(nx_graph)
 
+        map_max = max(value_map)
+        vmax = map_max * 1.1
+        vmax = round(vmax)
+        if vmax == map_max:
+            vmax += 1
+
         # Create graph with new labels.
         networkx.draw_networkx_edges(
             nx_graph,
             graph_position,
 
             # Edge settings.
-            edge_color='black',
+            edge_color='#303030',
             alpha=0.5,
         )
         node_drawing = networkx.draw_networkx_nodes(
@@ -344,13 +350,19 @@ class DataMapping():
         if value_map is None:
             value_map = self.create_edge_count_color_mapping(nx_graph)
 
+        map_max = max(value_map)
+        vmax = map_max * 1.1
+        vmax = round(vmax)
+        if vmax == map_max:
+            vmax += 1
+
         # Create graph with new labels.
         networkx.draw_networkx_edges(
             nx_graph,
             graph_position,
 
             # Edge settings.
-            edge_color='black',
+            edge_color='#303030',
             alpha=0.5,
             arrows=True,
         )
@@ -416,10 +428,11 @@ class DataMapping():
 
         # Create graph 2.
         pyplot.subplot(122)
-        self.draw_color_map(2, vis_labels=vis_labels)
+        node_drawing =  self.draw_color_map(2, vis_labels=vis_labels)
 
         # Show created graph(s).
-        # pyplot.colorbar(node_drawing)
+        if key:
+            pyplot.colorbar(node_drawing)
         pyplot.show()
 
     #endregion General Graph Mappings
