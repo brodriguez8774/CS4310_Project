@@ -19,9 +19,9 @@ def main():
     # Core program here.
     logger.info('Starting program.')
 
-    # draw_manual_test_graphs()
+    draw_manual_test_graphs()
     # draw_random_graphs()
-    draw_full_algorithm()
+    # draw_full_algorithm()
 
     # Program termination and clean up.
     logger.info('Terminating program.')
@@ -80,6 +80,7 @@ def draw_random_graphs():
     a_graph = random_grapher.create_graph()
     # a_graph = random_grapher.create_graph(min_nodes=2, max_nodes=10, min_edges=0, max_edges=3)
     # a_graph = random_grapher.create_graph(min_nodes=2, max_nodes=10, edge_complete=True)
+    a_graph.sort_node_edge_lists()
 
     mapper = data_mapping.DataMapping(a_graph, None)
     mapper.draw_color_map(1, vis_labels=True, show=True)
@@ -89,6 +90,8 @@ def draw_random_graphs():
     a_graph_2 = graph.Graph()
     for key, value in a_graph_1.nodes.items():
         a_graph_2.add_node(node=value)
+    a_graph_1.sort_node_edge_lists()
+    a_graph_2.sort_node_edge_lists()
 
     mapper = data_mapping.DataMapping(a_graph_2, None)
     mapper.draw_color_map(1, vis_labels=True, show=True)
@@ -112,6 +115,9 @@ def draw_full_algorithm():
     a_node = graph_2.get_node(0)
     graph_2.add_node(edges_in=[a_node, ])
     graph_2.add_node()
+
+    graph_1.sort_node_edge_lists()
+    graph_2.sort_node_edge_lists()
 
     # Compute first half of algorithm.
     graph_1_ranking = algorithm.greatest_constraints_first(graph_1.edge_count_list)
