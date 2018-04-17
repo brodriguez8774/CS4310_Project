@@ -40,10 +40,10 @@ class RandomizedGrapher():
             index += 1
 
         # Now create loop through all nodes, randomly creating edges for each node.
-        logger.info('Initial node creation complete. Now creating node edges.')
+        # logger.info('Initial node creation complete. Now creating node edges.')
         index = 0
         while index < node_count:
-            logger.info('Creating edges for node {0}'.format(index))
+            # logger.info('Creating edges for node {0}'.format(index))
             current_node = new_graph.get_node(index)
 
             # Determine total edge count for current node.
@@ -64,14 +64,14 @@ class RandomizedGrapher():
 
             # Continually add edges until counter hits 0.
             while edge_counter > 0:
-                logger.info('\n')
+                # logger.info('\n')
 
                 edge_index = random.randint(0, (edge_counter - 1))
 
-                logger.info('Edges to Add (Edge Counter): {0}'.format(edge_counter))
-                logger.info('Total nodes:   {0}'.format(node_count))
-                logger.info('Next Edge Index to Add: {0}'.format(edge_index))
-                logger.info('Current List Length: {0}'.format(len(node_list)))
+                # logger.info('Edges to Add (Edge Counter): {0}'.format(edge_counter))
+                # logger.info('Total nodes:   {0}'.format(node_count))
+                # logger.info('Next Edge Index to Add: {0}'.format(edge_index))
+                # logger.info('Current List Length: {0}'.format(len(node_list)))
 
                 edge_to_add = node_list.pop(edge_index)
 
@@ -86,5 +86,61 @@ class RandomizedGrapher():
 
             index += 1
 
+        logger.info('Randomized graph created.')
         return new_graph
 
+    def copy_graph(self, initial_graph, remove_nodes=False, min_percent_removal=10, max_percent_removal=90):
+        """
+        Copies provided graph nodes into new graph.
+        Optionally removes a random number of nodes, based on min and max values.
+        Note that these values are simply used to generate random removal values. There is no gaurantee that
+        an exact percentage of nodes will actually be removed. It's just statistically likely.
+        :param initial_graph:
+        :param remove_nodes: Bool to determine if nodes shall be randomly removed or not.
+        :param min_percent_removal: Minimum possible percent to remove.
+        :param max_percent_removal: Maximum possible percent to remove.
+        :return: Newly created graph.
+        """
+        # First create new graph.
+        new_graph = graph.Graph()
+        removal_list = []
+        random.seed()
+        if min_percent_removal > 90:
+            min_percent_removal = 90
+        if min_percent_removal > max_percent_removal:
+            max_percent_removal = min_percent_removal
+        percent_to_remove = random.randint(min_percent_removal, max_percent_removal)
+        logger.info('{0}% chance to remove a node.'.format(percent_to_remove))
+
+        # Iterate through all initial_graph values, creating an equivalent node for each one.
+        # Only adding nodes initially helps prevent errors with edge handling.
+        for key, value in initial_graph.nodes.items():
+            new_graph.add_node(name=value.name, data=value.data)
+
+            if remove_nodes:
+                # Chance to remove node. If this value is less than "percent_to_remove", then node is to be removed.
+                random_chance = random.randint(0, 100)
+                if random_chance < percent_to_remove:
+                    # Node is chosen for removal. Add to list.
+                    removal_list.append(value)
+
+        # Now add edges, since all nodes are now present. Done after node adding to help prevent errors.
+        for key, value in initial_graph.nodes.items():
+            edges_in = []
+            edges_out = []
+
+            node = new_graph.get_node(value.identifier)
+            for edge in initial_graph.get_node(value.identifier).edges_in:
+                edges_in.append(new_graph.get_node(edge.identifier))
+            for edge in initial_graph.get_node(value.identifier).edges_out:
+                edges_out.append(new_graph.get_node(edge.identifier))
+
+            node.add_edge(edges_in=edges_in, edges_out=edges_out)
+
+        # Graph is created. Now remove all items in removal list. Done here so all edges should stay in tact.
+        for removal_node in removal_list:
+            # Gaurantee that, at worse case scenario, at least one node will remain in the new graph.
+            if len(new_graph.edge_count_list) > 1:
+                new_graph.remove_node(removal_node.identifier)
+
+        return new_graph

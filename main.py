@@ -3,7 +3,7 @@ Core/Start of program.
 """
 
 # System Imports.
-
+import random
 
 # User Class Imports.
 from resources import graph, logging, randomized_grapher
@@ -19,9 +19,9 @@ def main():
     # Core program here.
     logger.info('Starting program.')
 
-    draw_manual_test_graphs()
+    # draw_manual_test_graphs()
     # draw_random_graphs()
-    # draw_full_algorithm()
+    draw_full_algorithm()
 
     # Program termination and clean up.
     logger.info('Terminating program.')
@@ -104,43 +104,51 @@ def draw_full_algorithm():
     algorithm = alg.Algorithm()
 
     # Create graph 1.
-    graph_1 = random_grapher.create_graph(min_nodes=2, max_nodes=8, min_edges=1, max_edges=3)
+    graph_orig = random_grapher.create_graph(min_nodes=2, max_nodes=10, min_edges=1, max_edges=5)
 
-    # Create graph 2.
-    graph_2 = graph.Graph()
-    for key, value in graph_1.nodes.items():
-        graph_2.add_node(node=value)
+    # Create graph 2. Done via copying graph one, with random nodes removed.
+    graph_copy = random_grapher.copy_graph(graph_orig, remove_nodes=True)
 
-    # Extra values for graph 2.
-    a_node = graph_2.get_node(0)
-    graph_2.add_node(edges_in=[a_node, ])
-    graph_2.add_node()
+    # # Extra values for graph 2.
+    # a_node = graph_copy.get_node(0)
+    # graph_copy.add_node(edges_in=[a_node, ])
+    # graph_copy.add_node()
 
-    graph_1.sort_node_edge_lists()
-    graph_2.sort_node_edge_lists()
+    graph_orig.sort_node_edge_lists()
+    graph_copy.sort_node_edge_lists()
 
     # Compute first half of algorithm.
-    graph_1_ranking = algorithm.greatest_constraints_first(graph_1.edge_count_list)
-    graph_2_ranking = algorithm.greatest_constraints_first(graph_2.edge_count_list)
+    graph_orig_ranking = algorithm.greatest_constraints_first(graph_orig.edge_count_list)
+    graph_copy_ranking = algorithm.greatest_constraints_first(graph_copy.edge_count_list)
 
     # Format list values.
-    graph_1_ranking = algorithm.condense_list(graph_1_ranking)
-    graph_2_ranking = algorithm.condense_list(graph_2_ranking)
+    graph_orig_ranking = algorithm.condense_list(graph_orig_ranking)
+    graph_copy_ranking = algorithm.condense_list(graph_copy_ranking)
 
-    logger.info('Formatted Graph 1 Ranking: {0}'.format(graph_1_ranking))
-    logger.info('Formatted Graph 2 Ranking: {0}'.format(graph_2_ranking))
+    logger.info('Formatted Graph Orig Ranking: {0}'.format(graph_orig_ranking))
+    logger.info('Formatted Graph Copy Ranking: {0}'.format(graph_copy_ranking))
 
     # Compute second half of algorithm.
-    match_list = algorithm.matching(graph_1_ranking, graph_2_ranking)
+    match_list = algorithm.matching(graph_orig_ranking, graph_copy_ranking)
 
     logger.info('Match List: {0}'.format(match_list))
 
     # Draw data.
-    mapper = data_mapping.DataMapping(graph_1, graph_2)
-
+    mapper = data_mapping.DataMapping(graph_orig, graph_copy)
     mapper.draw_side_by_side_color_maps(vis_labels=True, key=True)
     mapper.draw_matching_comparison(match_list)
 
+
+    # Switch which graph is the "subgraph" to compare with.
+    match_list = algorithm.matching(graph_copy_ranking, graph_orig_ranking)
+    logger.info('Match List: {0}'.format(match_list))
+
+    # Draw data again.
+    mapper = data_mapping.DataMapping(graph_copy, graph_orig)
+    mapper.draw_side_by_side_color_maps(vis_labels=True, key=True)
+    mapper.draw_matching_comparison(match_list)
+    # This should always match at least one node, proving that input order does matter.
+    # IE: Which graph is considered "the subgraph" does make a difference.
 
 if __name__ == '__main__':
     main()

@@ -213,14 +213,17 @@ class Node():
                             self.edges_in.append(edge_node)
                             # logger.info('Appending node {0} to {1}\'s "edges_in" list.'.format(str(edge_node), str(self)))
                         else:
-                            logger.info('Node {0} already in "edges_in" list. Skipping add.'.format(str(edge_node)))
+                            # logger.info('Node {0} already in "edges_in" list. Skipping add.'.format(str(edge_node)))
+                            pass
                         if not self in edge_node.edges_out:
                             edge_node.edges_out.append(self)
                             # logger.info('Appending node {0} to {1}\'s "edges_in" list.'.format(str(self), str(edge_node)))
                         else:
-                            logger.info('Node {0} already in "edges_out" list. Skipping add.'.format(str(self)))
+                            # logger.info('Node {0} already in "edges_out" list. Skipping add.'.format(str(self)))
+                            pass
                     else:
-                        logger.info('Node {0} attempting to add self as "edges_in". Skipping add.'.format(str(self)))
+                        # logger.info('Node {0} attempting to add self as "edges_in". Skipping add.'.format(str(self)))
+                        pass
                 else:
                     logger.warning('Passed "edges_in" list item {0} is not a Node object. Cannot add.'.format(str(edge_node)))
             edges_found = True
@@ -237,14 +240,17 @@ class Node():
                             self.edges_out.append(edge_node)
                             # logger.info('Appending node {0} to {1}\'s "edges_in" list.'.format(str(edge_node), str(self)))
                         else:
-                            logger.info('Node {0} already in "edges_out" list. Skipping add.'.format(str(edge_node)))
+                            # logger.info('Node {0} already in "edges_out" list. Skipping add.'.format(str(edge_node)))
+                            pass
                         if not self in edge_node.edges_in:
                             edge_node.edges_in.append(self)
                             # logger.info('Appending node {0} to {1}\'s "edges_in" list.'.format(str(self), str(edge_node)))
                         else:
-                            logger.info('Node {0} already in "edges_in" list. Skipping add.'.format(str(self)))
+                            # logger.info('Node {0} already in "edges_in" list. Skipping add.'.format(str(self)))
+                            pass
                     else:
-                        logger.info('Node {0} attempting to add self as "edges_out". Skipping add.'.format(str(self)))
+                        # logger.info('Node {0} attempting to add self as "edges_out". Skipping add.'.format(str(self)))
+                        pass
                 else:
                     logger.warning('Passed "edges_out" list item {0} is not a Node object. Cannot add.'.format(str(edge_node)))
             edges_found = True
@@ -271,13 +277,15 @@ class Node():
                         try:
                             self.edges_in.remove(edge_node)
                         except ValueError:
-                            logger.info('Node {0} is not connected by edge to {1}.'.format(str(edge_node), str(self)))
+                            logger.warning('Node {0} is not connected by edge to {1}.'.format(str(edge_node), str(self)))
                         try:
                             edge_node.edges_out.remove(self)
                         except ValueError:
-                            logger.info('Node {0} is not connected by edge to {1}.'.format(str(edge_node), str(self)))
+                            logger.warning('Node {0} is not connected by edge to {1}.'.format(str(edge_node), str(self)))
+                            pass
                     else:
-                        logger.info('Node {0} attempting to remove self from "edges_in". Skipping add.'.format(str(self)))
+                        # logger.info('Node {0} attempting to remove self from "edges_in". Skipping add.'.format(str(self)))
+                        pass
                 else:
                     logger.warning('Passed "edges_out" list item {0} is not a Node object. Cannot add.'.format(str(edge_node)))
             edges_found = True
@@ -292,14 +300,15 @@ class Node():
                         try:
                             self.edges_out.remove(edge_node)
                         except ValueError:
-                            logger.info('Node {0} is not connected by edge to {1}.'.format(str(edge_node), str(self)))
+                            logger.warning('Node {0} is not connected by edge to {1}.'.format(str(edge_node), str(self)))
+                            pass
                         try:
                             edge_node.edges_in.remove(self)
                         except ValueError:
-                            logger.info('Node {0} is not connected by edge to {1}.'.format(str(edge_node), str(self)))
+                            logger.warning('Node {0} is not connected by edge to {1}.'.format(str(edge_node), str(self)))
                     else:
-                        logger.info(
-                            'Node {0} attempting to remove self from "edges_out". Skipping add.'.format(str(self)))
+                        # logger.info('Node {0} attempting to remove self from "edges_out". Skipping add.'.format(str(self)))
+                        pass
                 else:
                     logger.warning('Passed "edges_out" list item {0} is not a Node object. Cannot add.'.format(str(edge_node)))
             edges_found = True

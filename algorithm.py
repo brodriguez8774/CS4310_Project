@@ -208,6 +208,9 @@ class Algorithm():
     def matching(self, orig_node_list, target_node_list, parent_list=None):
         """
         Attempts to match nodes against target list.
+        :param orig_node_list:
+        :param target_node_list:
+        :param parent_list:
         :return: List of node matches. Each match is a pair of (orig_node, matching_target_node)
         """
         # TODO: What are parent nodes ever used for?

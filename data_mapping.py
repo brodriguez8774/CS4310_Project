@@ -4,11 +4,10 @@ Maps graphs data to visual representation.
 
 # System Imports.
 from matplotlib import pyplot
-from matplotlib.axes import Axes
 import networkx
 
 # User Class Imports.
-from resources import logging
+from resources import graph, logging
 import algorithm as alg
 
 
@@ -37,21 +36,23 @@ class DataMapping():
         # Graph 1.
         # Add all nodes to graph.
         for key, value in self.backend_graph_1.nodes.items():
+            node = self.backend_graph_1.get_node(key)
             self.nx_graph_1.add_node(
-                self.backend_graph_1.get_node(key).identifier,
+                node.identifier,
                 attr_dict={
-                    'node': self.backend_graph_1.get_node(key),
+                    'node': node,
                 }
             )
 
         # Establish edge connections between nodes.
         for key, value in self.backend_graph_1.nodes.items():
             for edge_link in value.edges_out:
+                node = self.backend_graph_1.get_node(key)
                 self.nx_graph_1.add_edge(
-                    self.backend_graph_1.get_node(key).identifier,
+                    node.identifier,
                     edge_link.identifier,
                     attr_dict={
-                        'node': self.backend_graph_1.get_node(key),
+                        'node': node,
                     }
                 )
 
@@ -62,21 +63,23 @@ class DataMapping():
         if self.backend_graph_2 is not None:
             # Add all nodes to graph.
             for key, value in self.backend_graph_2.nodes.items():
+                node = self.backend_graph_2.get_node(key)
                 self.nx_graph_2.add_node(
-                    self.backend_graph_2.get_node(key).identifier,
+                    node.identifier,
                     attr_dict={
-                        'node': self.backend_graph_2.get_node(key),
+                        'node': node,
                     }
                 )
 
             # Establish edge connections between nodes.
             for key, value in self.backend_graph_2.nodes.items():
                 for edge_link in value.edges_out:
+                    node = self.backend_graph_2.get_node(key)
                     self.nx_graph_2.add_edge(
-                        self.backend_graph_2.get_node(key).identifier,
+                        node.identifier,
                         edge_link.identifier,
                         attr_dict={
-                            'node': self.backend_graph_2.get_node(key),
+                            'node': node,
                         }
                     )
 
@@ -124,7 +127,7 @@ class DataMapping():
         Creates a color mapping list based off node matching.
         :return: Color mapping lists of integer values. 0 for miss or 1 for match.
         """
-        logger.info('Starting match color mapping.')
+        # logger.info('Starting match color mapping.')
         value_map_1 = []
         for node in self.nx_graph_1.nodes():
             # logger.info(self.backend_graph_1.get_node(node).graph_match)
@@ -164,20 +167,40 @@ class DataMapping():
         node_ranking = algorithm.greatest_constraints_first(backend_graph.edge_count_list)
 
         # Set graph labels based off of associated ranking type.
-        for visitor in node_ranking[0]:
-            nx_graph.nodes[visitor.identifier]['attr_dict']['node'].graph_label = 'vis'
+        # Label all vis.
+        if isinstance(node_ranking[0], graph.Node):
+            nx_graph.nodes[node_ranking[0].identifier]['attr_dict']['node'].graph_label = 'vis'
+        else:
+            for visitor in node_ranking[0]:
+                nx_graph.nodes[visitor.identifier]['attr_dict']['node'].graph_label = 'vis'
 
-        for neighbor in node_ranking[1]:
-            nx_graph.nodes[neighbor.identifier]['attr_dict']['node'].graph_label = 'neigh'
+        # Label all neigh.
+        try:
+            if isinstance(node_ranking[1], graph.Node):
+                nx_graph.nodes[node_ranking[1].identifier]['attr_dict']['node'].graph_label = 'neigh'
+            else:
+                for neighbor in node_ranking[1]:
+                    nx_graph.nodes[neighbor.identifier]['attr_dict']['node'].graph_label = 'neigh'
+        except IndexError:
+            pass
 
-        for unvisited in node_ranking[2]:
-            nx_graph.nodes[unvisited.identifier]['attr_dict']['node'].graph_label = 'unvis'
+        # Label all unvis.
+        try:
+            if isinstance(node_ranking[2], graph.Node):
+                nx_graph.nodes[node_ranking[2].identifier]['attr_dict']['node'].graph_label = 'unvis'
+            else:
+                for unvisited in node_ranking[2]:
+                    nx_graph.nodes[unvisited.identifier]['attr_dict']['node'].graph_label = 'unvis'
+        except IndexError:
+            pass
 
         # Actually set label dict based on data value.
         label_dict = {}
         backend_graph.edge_count_list[0].graph_label = 'root'
         for node in nx_graph.nodes().values():
-            label_dict[node['attr_dict']['node'].identifier] = node['attr_dict']['node'].graph_label
+            # logger.info('Node Value: {0}'.format(node))
+            if node is not {}:
+                label_dict[node['attr_dict']['node'].identifier] = node['attr_dict']['node'].graph_label
 
         return label_dict
 
@@ -445,7 +468,7 @@ class DataMapping():
         # self.log_graph_info(1)
         # logger.info('Graph 2 Info:')
         # self.log_graph_info(2)
-        logger.info('Drawing match comparison...')
+        # logger.info('Drawing match comparison...')
         match_labels = self.create_match_labels(match_list)
 
         match_label_1 = match_labels[0]
@@ -457,7 +480,7 @@ class DataMapping():
         # Create graph 1.
         # logger.info('Displaying graph 1.')
         pyplot.subplot(121)
-        logger.info(match_label_1)
+        # logger.info(match_label_1)
         self.draw_color_map(1, labels=match_label_1, value_map=value_map_1, vmax=2)
 
         # Create graph 2.
