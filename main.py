@@ -27,6 +27,9 @@ def main():
     logger.info('Terminating program.')
 
 def draw_manual_test_graphs():
+    """
+    Manually create small graphs and test out all possible mapping displays.
+    """
     # Create test graph 1.
     test_graph_1 = graph.Graph('Test Graph')
     node_0 = test_graph_1.add_node()
@@ -58,17 +61,20 @@ def draw_manual_test_graphs():
     mapper = data_mapping.DataMapping(test_graph_1, test_graph_2)
 
     # Single maps.
-    mapper.draw_bw_map(1, False)
-    mapper.draw_color_map(1, False)
-    mapper.draw_bw_map(2, False)
-    mapper.draw_color_map(2, False)
+    mapper.draw_bw_map(1, vis_labels=False, show=True, key=True)
+    mapper.draw_color_map(1, vis_labels=False, show=True, key=True)
+    mapper.draw_bw_map(2, vis_labels=False, show=True)
+    mapper.draw_color_map(2, vis_labels=False, show=True)
 
     # Side by side maps.
-    mapper.draw_side_by_side_bw_maps(False)
-    mapper.draw_side_by_side_color_maps(False)
+    mapper.draw_side_by_side_bw_maps(vis_labels=False, key=True)
+    mapper.draw_side_by_side_color_maps(vis_labels=False, key=True)
 
 def draw_random_graphs():
-    # Test randomly generated graph.
+    """
+    Test randomly generated graphs.
+    """
+    # Test standard, randomly generated graph.
     random_grapher = randomized_grapher.RandomizedGrapher()
 
     a_graph = random_grapher.create_graph()
@@ -76,9 +82,7 @@ def draw_random_graphs():
     # a_graph = random_grapher.create_graph(min_nodes=2, max_nodes=10, edge_complete=True)
 
     mapper = data_mapping.DataMapping(a_graph, None)
-    mapper.draw_color_map(1, True)
-
-
+    mapper.draw_color_map(1, vis_labels=True, show=True)
 
     # Test randomly generated graph that was copied from an original.
     a_graph_1 = random_grapher.create_graph(min_nodes=2, max_nodes=10, min_edges=0, max_edges=3)
@@ -87,10 +91,12 @@ def draw_random_graphs():
         a_graph_2.add_node(node=value)
 
     mapper = data_mapping.DataMapping(a_graph_2, None)
-    mapper.draw_color_map(1, True)
+    mapper.draw_color_map(1, vis_labels=True, show=True)
 
 def draw_full_algorithm():
-    # Full Algorithm Test.
+    """
+    Full algorithm test.
+    """
     random_grapher = randomized_grapher.RandomizedGrapher()
     algorithm = alg.Algorithm()
 
@@ -126,11 +132,8 @@ def draw_full_algorithm():
     # Draw data.
     mapper = data_mapping.DataMapping(graph_1, graph_2)
 
-    mapper.draw_side_by_side_color_maps(True)
+    mapper.draw_side_by_side_color_maps(vis_labels=True, key=True)
     mapper.draw_matching_comparison(match_list)
-
-    # mapper = data_mapping.DataMapping(a_graph_2, None)
-    # mapper.draw_color_map(1, True)
 
 
 if __name__ == '__main__':
