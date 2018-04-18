@@ -101,6 +101,8 @@ class RandomizedGrapher():
         :param max_percent_removal: Maximum possible percent to remove.
         :return: Newly created graph.
         """
+        logger.info('Copying graph with node removal set to {0}'.format(remove_nodes))
+
         # First create new graph.
         new_graph = graph.Graph()
         removal_list = []
@@ -138,9 +140,13 @@ class RandomizedGrapher():
             node.add_edge(edges_in=edges_in, edges_out=edges_out)
 
         # Graph is created. Now remove all items in removal list. Done here so all edges should stay in tact.
+        removal_count = 0
         for removal_node in removal_list:
             # Gaurantee that, at worse case scenario, at least one node will remain in the new graph.
             if len(new_graph.edge_count_list) > 1:
                 new_graph.remove_node(removal_node.identifier)
+                removal_count += 1
+
+        logger.info('Graph copied with {0} nodes removed.'.format(removal_count))
 
         return new_graph

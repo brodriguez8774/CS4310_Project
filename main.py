@@ -16,6 +16,9 @@ logger = logging.get_logger(__name__)
 
 
 def main():
+    # # Test a "test_result" level log message.
+    # logger.testresult('Test Result level test.')
+
     # Core program here.
     logger.info('Starting program.')
 
@@ -125,13 +128,13 @@ def draw_full_algorithm():
     graph_orig_ranking = algorithm.condense_list(graph_orig_ranking)
     graph_copy_ranking = algorithm.condense_list(graph_copy_ranking)
 
-    logger.info('Formatted Graph Orig Ranking: {0}'.format(graph_orig_ranking))
-    logger.info('Formatted Graph Copy Ranking: {0}'.format(graph_copy_ranking))
+    # logger.info('Formatted Graph Orig Ranking: {0}'.format(graph_orig_ranking))
+    # logger.info('Formatted Graph Copy Ranking: {0}'.format(graph_copy_ranking))
 
     # Compute second half of algorithm.
     match_list = algorithm.matching(graph_orig_ranking, graph_copy_ranking)
 
-    logger.info('Match List: {0}'.format(match_list))
+    # logger.info('Match List: {0}'.format(match_list))
 
     # Draw data.
     mapper = data_mapping.DataMapping(graph_orig, graph_copy)
@@ -141,7 +144,7 @@ def draw_full_algorithm():
 
     # Switch which graph is the "subgraph" to compare with.
     match_list = algorithm.matching(graph_copy_ranking, graph_orig_ranking)
-    logger.info('Match List: {0}'.format(match_list))
+    # logger.info('Match List: {0}'.format(match_list))
 
     # Draw data again.
     mapper = data_mapping.DataMapping(graph_copy, graph_orig)
