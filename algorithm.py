@@ -232,15 +232,15 @@ class Algorithm():
                 if match:
                     if not orig_node.name == target_node.name:
                         match = False
-                        logger.info('Failed node name check.')
+                        # logger.info('Failed node name check.')
                 if match:
                     if not orig_node.identifier == target_node.identifier:
                         match = False
-                        logger.info('Failed node identifier check.')
+                        # logger.info('Failed node identifier check.')
                 if match:
                     if not orig_node.data == target_node.data:
                         match = False
-                        logger.info('Failed node data check.')
+                        # logger.info('Failed node data check.')
 
                 if match:
                     # Due to way the random datasets are created, need to be someone lax about enforcing this.
@@ -248,11 +248,11 @@ class Algorithm():
                     if edge_strictness == 'loose':
                         if len(target_node.edges_in) < (len(orig_node.edges_in)*1/3) or len(target_node.edges_out) < (len(orig_node.edges_out)*1/3):
                             match = False
-                            logger.info('Failed loose node edge count check.')
+                            # logger.info('Failed loose node edge count check.')
                     elif edge_strictness == 'strict':
                         if len(target_node.edges_in) < (len(orig_node.edges_in)*2/3) or len(target_node.edges_out) < (len(orig_node.edges_out)*2/3):
                             match = False
-                            logger.info('Failed strict node edge count check.')
+                            # logger.info('Failed strict node edge count check.')
 
                 """
                     Check that "constraints from topology of pattern graph to this point are met."
@@ -318,7 +318,7 @@ class Algorithm():
                     # Last check if counter meets current loose/strict edge requirement. Match found if so.
                     if not edge_match_count >= count_requirement:
                         match = False
-                        logger.info('Failed full edge match check.')
+                        logger.warning('Failed full edge match check.')
 
                 # If it got this far, then is a valid match. Add to list of matches and remove target from list.
                 # Then break current loop to start iterating through next node in "orig list", since current match was found.

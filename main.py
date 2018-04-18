@@ -3,7 +3,7 @@ Core/Start of program.
 """
 
 # System Imports.
-import time
+import ast, time
 
 # User Class Imports.
 from resources import graph, logging, randomized_grapher
@@ -24,8 +24,12 @@ def main():
 
     # draw_manual_test_graphs()
     # draw_random_graphs()
-    draw_full_algorithm()
-    # run_algorithm_with_result_log(min_nodes=90, max_nodes=110, min_edges=0, max_edges=33, remove_nodes=False, min_percent_removal=0, max_percent_removal=0)
+    # draw_full_algorithm()
+    # run_algorithm_with_result_log(
+    #     min_nodes=90, max_nodes=110, min_edges=0, max_edges=33, remove_nodes=False, min_percent_removal=0,
+    #     max_percent_removal=0, edge_strictness='loose'
+    # )
+    read_and_compute_results()
 
     # Program termination and clean up.
     logger.info('Terminating program.')
@@ -186,6 +190,7 @@ def run_algorithm_with_result_log(min_nodes=2, max_nodes=10, min_edges=1, max_ed
             max_edges=max_edges
         )
         first_graph_creation_time = time.time()
+        node_count = len(graph_orig.nodes)
 
         # Second graph.
         graph_copy = random_grapher.copy_graph(
@@ -223,6 +228,7 @@ def run_algorithm_with_result_log(min_nodes=2, max_nodes=10, min_edges=1, max_ed
         # Record info.
         # logger.info(match_list)
         algorithm_results = {
+            'node_count': node_count,
             'start_time': start_time,
             'first_graph_creation_time': first_graph_creation_time,
             'second_graph_creation_time': second_graph_creation_time,
@@ -234,6 +240,87 @@ def run_algorithm_with_result_log(min_nodes=2, max_nodes=10, min_edges=1, max_ed
         logger.testresult(algorithm_results)
         index += 1
 
+
+def read_and_compute_results():
+    """
+    Reads in from given file and computes human-readable averages from all 100 iterations.
+    """
+    # Open file.
+    result_read_in = '0500_Dense_Many_Strict.log'
+    read_file = open('documents/results/sets/' + result_read_in, 'r')
+
+    total_first_graph_creation = 0
+    total_second_graph_creation = 0
+    total_edge_sort_time = 0
+    total_greatest_constraints_time = 0
+    total_match_time = 0
+    total_time = 0
+    total_nodes_handled = 0
+    total_matches = 0
+
+    # Read line.
+    read_line = read_file.readline()
+
+
+    while (read_line != ''):
+        values = ast.literal_eval(read_line)
+        if isinstance(values, dict):
+            logger.info('Dict: {0}'.format(values))
+
+            first_graph_creation = values['first_graph_creation_time'] - values['start_time']
+            second_graph_creation = values['second_graph_creation_time'] - values['first_graph_creation_time']
+            edge_sort = values['graph_edge_sort_time'] - values['second_graph_creation_time']
+            g_c = values['greatest_constraints_time'] - values['graph_edge_sort_time']
+            matching = values['matching_time'] - values['greatest_constraints_time']
+            overall_time = values['matching_time'] - values['start_time']
+            node_count = values['node_count']
+            number_of_matches = values['number_of_matches']
+
+            # logger.info('Overall: {0}s, First Graph: {1}s, Second Graph: {2}s, Edge Sort: {3}s, GC: {4}s, Match: {5}s, {6} Total Nodes'.format(
+            #     overall_time, first_graph_creation, second_graph_creation, edge_sort, g_c, matching, node_count))
+
+            total_first_graph_creation += first_graph_creation
+            total_second_graph_creation += second_graph_creation
+            total_edge_sort_time += edge_sort
+            total_greatest_constraints_time += g_c
+            total_match_time += matching
+            total_time += overall_time
+            total_nodes_handled += node_count
+            total_matches += number_of_matches
+
+            read_line = read_file.readline()
+
+    # Close file.
+    read_file.close()
+
+    # Average results.
+    total_first_graph_creation = total_first_graph_creation / 100
+    total_second_graph_creation = total_second_graph_creation / 100
+    total_edge_sort_time = total_edge_sort_time / 100
+    total_greatest_constraints_time = total_greatest_constraints_time / 100
+    total_match_time = total_match_time / 100
+    total_time = total_time / 100
+    total_nodes_handled = total_nodes_handled / 100
+    total_matches = total_matches / 100
+
+    # Save results.
+    logger.info('\n\nAverage of Results for {0}:\n'.format(result_read_in))
+
+    result_avg_dict = {
+        'first_graph_creation': total_first_graph_creation,
+        'second_graph_creation': total_second_graph_creation,
+        'edge_sort_time': total_edge_sort_time,
+        'greatest_constraints_time': total_greatest_constraints_time,
+        'match_time': total_match_time,
+        'total_time': total_time,
+        'nodes_handled': total_nodes_handled,
+        'node_matches': total_matches,
+    }
+
+    # logger.info('Overall: {0}s, First Graph: {1}s, Second Graph: {2}s, Edge Sort: {3}s, GC: {4}s, Match: {5}s, {6} Total Nodes'.format(
+    #         total_time, total_first_graph_creation, total_second_graph_creation, total_edge_sort_time, total_greatest_constraints_time, total_match_time, total_nodes_handled))
+
+    logger.testresult(result_avg_dict)
 
 if __name__ == '__main__':
     main()

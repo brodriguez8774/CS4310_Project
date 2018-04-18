@@ -1,0 +1,186 @@
+
+Guide to Result Parameters:
+
+100 Node Guideline:
+    0100_Sparse_None_Loose      min_nodes=90, max_nodes=110, min_edges=0, max_edges=33, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='loose'
+    0100_Sparse_None_Strict     min_nodes=90, max_nodes=110, min_edges=0, max_edges=33, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='strict'
+    0100_Sparse_Few_Loose       min_nodes=90, max_nodes=110, min_edges=0, max_edges=33, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='loose'
+    0100_Sparse_Few_Strict      min_nodes=90, max_nodes=110, min_edges=0, max_edges=33, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='strict'
+    0100_Sparse_Some_Loose      min_nodes=90, max_nodes=110, min_edges=0, max_edges=33, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='loose'
+    0100_Sparse_Some_Strict     min_nodes=90, max_nodes=110, min_edges=0, max_edges=33, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='strict'
+    0100_Sparse_Many_Loose      min_nodes=90, max_nodes=110, min_edges=0, max_edges=33, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='loose'
+    0100_Sparse_Many_Strict     min_nodes=90, max_nodes=110, min_edges=0, max_edges=33, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='strict'
+
+    0100_Middle_None_Loose      min_nodes=90, max_nodes=110, min_edges=33, max_edges=66, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='loose'
+    0100_Middle_None_Strict     min_nodes=90, max_nodes=110, min_edges=33, max_edges=66, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='strict'
+    0100_Middle_Few_Loose       min_nodes=90, max_nodes=110, min_edges=33, max_edges=66, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='loose'
+    0100_Middle_Few_Strict      min_nodes=90, max_nodes=110, min_edges=33, max_edges=66, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='strict'
+    0100_Middle_Some_Loose      min_nodes=90, max_nodes=110, min_edges=33, max_edges=66, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='loose'
+    0100_Middle_Some_Strict     min_nodes=90, max_nodes=110, min_edges=33, max_edges=66, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='strict'
+    0100_Middle_Many_Loose      min_nodes=90, max_nodes=110, min_edges=33, max_edges=66, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='loose'
+    0100_Middle_Many_Strict     min_nodes=90, max_nodes=110, min_edges=33, max_edges=66, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='strict'
+
+    0100_Dense_None_Loose       min_nodes=90, max_nodes=110, min_edges=66, max_edges=100, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='loose'
+    0100_Dense_None_Strict      min_nodes=90, max_nodes=110, min_edges=66, max_edges=100, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='strict'
+    0100_Dense_Few_Loose        min_nodes=90, max_nodes=110, min_edges=66, max_edges=100, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='loose'
+    0100_Dense_Few_Strict       min_nodes=90, max_nodes=110, min_edges=66, max_edges=100, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='strict'
+    0100_Dense_Some_Loose       min_nodes=90, max_nodes=110, min_edges=66, max_edges=100, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='loose'
+    0100_Dense_Some_Strict      min_nodes=90, max_nodes=110, min_edges=66, max_edges=100, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='strict'
+    0100_Dense_Many_Loose       min_nodes=90, max_nodes=110, min_edges=66, max_edges=100, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='loose'
+    0100_Dense_Many_Strict      min_nodes=90, max_nodes=110, min_edges=66, max_edges=100, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='strict'
+
+
+
+200 Node Guideline:
+    0200_Sparse_None_Loose      min_nodes=180, max_nodes=220, min_edges=0, max_edges=66, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='loose'
+    0200_Sparse_None_Strict     min_nodes=180, max_nodes=220, min_edges=0, max_edges=66, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='strict'
+    0200_Sparse_Few_Loose       min_nodes=180, max_nodes=220, min_edges=0, max_edges=66, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='loose'
+    0200_Sparse_Few_Strict      min_nodes=180, max_nodes=220, min_edges=0, max_edges=66, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='strict'
+    0200_Sparse_Some_Loose      min_nodes=180, max_nodes=220, min_edges=0, max_edges=66, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='loose'
+    0200_Sparse_Some_Strict     min_nodes=180, max_nodes=220, min_edges=0, max_edges=66, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='strict'
+    0200_Sparse_Many_Loose      min_nodes=180, max_nodes=220, min_edges=0, max_edges=66, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='loose'
+    0200_Sparse_Many_Strict     min_nodes=180, max_nodes=220, min_edges=0, max_edges=66, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='strict'
+
+    0200_Middle_None_Loose      min_nodes=180, max_nodes=220, min_edges=66, max_edges=133, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='loose'
+    0200_Middle_None_Strict     min_nodes=180, max_nodes=220, min_edges=66, max_edges=133, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='strict'
+    0200_Middle_Few_Loose       min_nodes=180, max_nodes=220, min_edges=66, max_edges=133, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='loose'
+    0200_Middle_Few_Strict      min_nodes=180, max_nodes=220, min_edges=66, max_edges=133, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='strict'
+    0200_Middle_Some_Loose      min_nodes=180, max_nodes=220, min_edges=66, max_edges=133, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='loose'
+    0200_Middle_Some_Strict     min_nodes=180, max_nodes=220, min_edges=66, max_edges=133, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='strict'
+    0200_Middle_Many_Loose      min_nodes=180, max_nodes=220, min_edges=66, max_edges=133, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='loose'
+    0200_Middle_Many_Strict     min_nodes=180, max_nodes=220, min_edges=66, max_edges=133, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='strict'
+
+    0200_Dense_None_Loose       min_nodes=180, max_nodes=220, min_edges=133, max_edges=200, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='loose'
+    0200_Dense_None_Strict      min_nodes=180, max_nodes=220, min_edges=133, max_edges=200, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='strict'
+    0200_Dense_Few_Loose        min_nodes=180, max_nodes=220, min_edges=133, max_edges=200, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='loose'
+    0200_Dense_Few_Strict       min_nodes=180, max_nodes=220, min_edges=133, max_edges=200, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='strict'
+    0200_Dense_Some_Loose       min_nodes=180, max_nodes=220, min_edges=133, max_edges=200, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='loose'
+    0200_Dense_Some_Strict      min_nodes=180, max_nodes=220, min_edges=133, max_edges=200, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='strict'
+    0200_Dense_Many_Loose       min_nodes=180, max_nodes=220, min_edges=133, max_edges=200, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='loose'
+    0200_Dense_Many_Strict      min_nodes=180, max_nodes=220, min_edges=133, max_edges=200, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='strict'
+
+
+
+300 Node Guideline:
+    0300_Sparse_None_Loose      min_nodes=270, max_nodes=330, min_edges=0, max_edges=100, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='loose'
+    0300_Sparse_None_Strict     min_nodes=270, max_nodes=330, min_edges=0, max_edges=100, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='strict'
+    0300_Sparse_Few_Loose       min_nodes=270, max_nodes=330, min_edges=0, max_edges=100, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='loose'
+    0300_Sparse_Few_Strict      min_nodes=270, max_nodes=330, min_edges=0, max_edges=100, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='strict'
+    0300_Sparse_Some_Loose      min_nodes=270, max_nodes=330, min_edges=0, max_edges=100, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='loose'
+    0300_Sparse_Some_Strict     min_nodes=270, max_nodes=330, min_edges=0, max_edges=100, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='strict'
+    0300_Sparse_Many_Loose      min_nodes=270, max_nodes=330, min_edges=0, max_edges=100, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='loose'
+    0300_Sparse_Many_Strict     min_nodes=270, max_nodes=330, min_edges=0, max_edges=100, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='strict'
+
+    0300_Middle_None_Loose      min_nodes=270, max_nodes=330, min_edges=100, max_edges=200, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='loose'
+    0300_Middle_None_Strict     min_nodes=270, max_nodes=330, min_edges=100, max_edges=200, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='strict'
+    0300_Middle_Few_Loose       min_nodes=270, max_nodes=330, min_edges=100, max_edges=200, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='loose'
+    0300_Middle_Few_Strict      min_nodes=270, max_nodes=330, min_edges=100, max_edges=200, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='strict'
+    0300_Middle_Some_Loose      min_nodes=270, max_nodes=330, min_edges=100, max_edges=200, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='loose'
+    0300_Middle_Some_Strict     min_nodes=270, max_nodes=330, min_edges=100, max_edges=200, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='strict'
+    0300_Middle_Many_Loose      min_nodes=270, max_nodes=330, min_edges=100, max_edges=200, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='loose'
+    0300_Middle_Many_Strict     min_nodes=270, max_nodes=330, min_edges=100, max_edges=200, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='strict'
+
+    0300_Dense_None_Loose       min_nodes=270, max_nodes=330, min_edges=200, max_edges=300, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='loose'
+    0300_Dense_None_Strict      min_nodes=270, max_nodes=330, min_edges=200, max_edges=300, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='strict'
+    0300_Dense_Few_Loose        min_nodes=270, max_nodes=330, min_edges=200, max_edges=300, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='loose'
+    0300_Dense_Few_Strict       min_nodes=270, max_nodes=330, min_edges=200, max_edges=300, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='strict'
+    0300_Dense_Some_Loose       min_nodes=270, max_nodes=330, min_edges=200, max_edges=300, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='loose'
+    0300_Dense_Some_Strict      min_nodes=270, max_nodes=330, min_edges=200, max_edges=300, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='strict'
+    0300_Dense_Many_Loose       min_nodes=270, max_nodes=330, min_edges=200, max_edges=300, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='loose'
+    0300_Dense_Many_Strict      min_nodes=270, max_nodes=330, min_edges=200, max_edges=300, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='strict'
+
+
+
+400 Node Guideline:
+    0400_Sparse_None_Loose      min_nodes=360, max_nodes=440, min_edges=0, max_edges=133, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='loose'
+    0400_Sparse_None_Strict     min_nodes=360, max_nodes=440, min_edges=0, max_edges=133, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='strict'
+    0400_Sparse_Few_Loose       min_nodes=360, max_nodes=440, min_edges=0, max_edges=133, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='loose'
+    0400_Sparse_Few_Strict      min_nodes=360, max_nodes=440, min_edges=0, max_edges=133, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='strict'
+    0400_Sparse_Some_Loose      min_nodes=360, max_nodes=440, min_edges=0, max_edges=133, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='loose'
+    0400_Sparse_Some_Strict     min_nodes=360, max_nodes=440, min_edges=0, max_edges=133, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='strict'
+    0400_Sparse_Many_Loose      min_nodes=360, max_nodes=440, min_edges=0, max_edges=133, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='loose'
+    0400_Sparse_Many_Strict     min_nodes=360, max_nodes=440, min_edges=0, max_edges=133, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='strict'
+
+    0400_Middle_None_Loose      min_nodes=360, max_nodes=440, min_edges=133, max_edges=266, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='loose'
+    0400_Middle_None_Strict     min_nodes=360, max_nodes=440, min_edges=133, max_edges=266, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='strict'
+    0400_Middle_Few_Loose       min_nodes=360, max_nodes=440, min_edges=133, max_edges=266, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='loose'
+    0400_Middle_Few_Strict      min_nodes=360, max_nodes=440, min_edges=133, max_edges=266, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='strict'
+    0400_Middle_Some_Loose      min_nodes=360, max_nodes=440, min_edges=133, max_edges=266, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='loose'
+    0400_Middle_Some_Strict     min_nodes=360, max_nodes=440, min_edges=133, max_edges=266, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='strict'
+    0400_Middle_Many_Loose      min_nodes=360, max_nodes=440, min_edges=133, max_edges=266, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='loose'
+    0400_Middle_Many_Strict     min_nodes=360, max_nodes=440, min_edges=133, max_edges=266, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='strict'
+
+    0400_Dense_None_Loose       min_nodes=360, max_nodes=440, min_edges=266, max_edges=400, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='loose'
+    0400_Dense_None_Strict      min_nodes=360, max_nodes=440, min_edges=266, max_edges=400, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='strict'
+    0400_Dense_Few_Loose        min_nodes=360, max_nodes=440, min_edges=266, max_edges=400, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='loose'
+    0400_Dense_Few_Strict       min_nodes=360, max_nodes=440, min_edges=266, max_edges=400, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='strict'
+    0400_Dense_Some_Loose       min_nodes=360, max_nodes=440, min_edges=266, max_edges=400, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='loose'
+    0400_Dense_Some_Strict      min_nodes=360, max_nodes=440, min_edges=266, max_edges=400, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='strict'
+    0400_Dense_Many_Loose       min_nodes=360, max_nodes=440, min_edges=266, max_edges=400, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='loose'
+    0400_Dense_Many_Strict      min_nodes=360, max_nodes=440, min_edges=266, max_edges=400, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='strict'
+
+
+
+500 Node Guideline:
+    0500_Sparse_None_Loose      min_nodes=450, max_nodes=550, min_edges=0, max_edges=150, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='loose'
+    0500_Sparse_None_Strict     min_nodes=450, max_nodes=550, min_edges=0, max_edges=150, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='strict'
+    0500_Sparse_Few_Loose       min_nodes=450, max_nodes=550, min_edges=0, max_edges=150, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='loose'
+    0500_Sparse_Few_Strict      min_nodes=450, max_nodes=550, min_edges=0, max_edges=150, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='strict'
+    0500_Sparse_Some_Loose      min_nodes=450, max_nodes=550, min_edges=0, max_edges=150, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='loose'
+    0500_Sparse_Some_Strict     min_nodes=450, max_nodes=550, min_edges=0, max_edges=150, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='strict'
+    0500_Sparse_Many_Loose      min_nodes=450, max_nodes=550, min_edges=0, max_edges=150, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='loose'
+    0500_Sparse_Many_Strict     min_nodes=450, max_nodes=550, min_edges=0, max_edges=150, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='strict'
+
+    0500_Middle_None_Loose      min_nodes=450, max_nodes=550, min_edges=150, max_edges=300, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='loose'
+    0500_Middle_None_Strict     min_nodes=450, max_nodes=550, min_edges=150, max_edges=300, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='strict'
+    0500_Middle_Few_Loose       min_nodes=450, max_nodes=550, min_edges=150, max_edges=300, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='loose'
+    0500_Middle_Few_Strict      min_nodes=450, max_nodes=550, min_edges=150, max_edges=300, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='strict'
+    0500_Middle_Some_Loose      min_nodes=450, max_nodes=550, min_edges=150, max_edges=300, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='loose'
+    0500_Middle_Some_Strict     min_nodes=450, max_nodes=550, min_edges=150, max_edges=300, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='strict'
+    0500_Middle_Many_Loose      min_nodes=450, max_nodes=550, min_edges=150, max_edges=300, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='loose'
+    0500_Middle_Many_Strict     min_nodes=450, max_nodes=550, min_edges=150, max_edges=300, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='strict'
+
+    0500_Dense_None_Loose       min_nodes=450, max_nodes=550, min_edges=300, max_edges=500, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='loose'
+    0500_Dense_None_Strict      min_nodes=450, max_nodes=550, min_edges=300, max_edges=500, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='strict'
+    0500_Dense_Few_Loose        min_nodes=450, max_nodes=550, min_edges=300, max_edges=500, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='loose'
+    0500_Dense_Few_Strict       min_nodes=450, max_nodes=550, min_edges=300, max_edges=500, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='strict'
+    0500_Dense_Some_Loose       min_nodes=450, max_nodes=550, min_edges=300, max_edges=500, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='loose'
+    0500_Dense_Some_Strict      min_nodes=450, max_nodes=550, min_edges=300, max_edges=500, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='strict'
+    0500_Dense_Many_Loose       min_nodes=450, max_nodes=550, min_edges=300, max_edges=500, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='loose'
+    0500_Dense_Many_Strict      min_nodes=450, max_nodes=550, min_edges=300, max_edges=500, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='strict'
+
+
+
+# Too slow to realistically do.
+# With Dense, each single run (of 100 per set) was taking as long as 30 to 60 seconds. Which would amount to up to a worst case of a 100 minutes to run, per set. Times 8 different sets of Dense means 8 to 16 hours.
+# And that's not including the time to run middle and sparse. While it's technically all do-able, it's not worth running for the context of this project.
+1000 Node Guideline:
+    1000_Sparse_None_Loose      min_nodes=900, max_nodes=1100, min_edges=0, max_edges=333, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='loose'
+    1000_Sparse_None_Strict     min_nodes=900, max_nodes=1100, min_edges=0, max_edges=333, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='strict'
+    1000_Sparse_Few_Loose       min_nodes=900, max_nodes=1100, min_edges=0, max_edges=333, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='loose'
+    1000_Sparse_Few_Strict      min_nodes=900, max_nodes=1100, min_edges=0, max_edges=333, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='strict'
+    1000_Sparse_Some_Loose      min_nodes=900, max_nodes=1100, min_edges=0, max_edges=333, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='loose'
+    1000_Sparse_Some_Strict     min_nodes=900, max_nodes=1100, min_edges=0, max_edges=333, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='strict'
+    1000_Sparse_Many_Loose      min_nodes=900, max_nodes=1100, min_edges=0, max_edges=333, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='loose'
+    1000_Sparse_Many_Strict     min_nodes=900, max_nodes=1100, min_edges=0, max_edges=333, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='strict'
+
+    1000_Middle_None_Loose      min_nodes=900, max_nodes=1100, min_edges=333, max_edges=666, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='loose'
+    1000_Middle_None_Strict     min_nodes=900, max_nodes=1100, min_edges=333, max_edges=666, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='strict'
+    1000_Middle_Few_Loose       min_nodes=900, max_nodes=1100, min_edges=333, max_edges=666, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='loose'
+    1000_Middle_Few_Strict      min_nodes=900, max_nodes=1100, min_edges=333, max_edges=666, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='strict'
+    1000_Middle_Some_Loose      min_nodes=900, max_nodes=1100, min_edges=333, max_edges=666, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='loose'
+    1000_Middle_Some_Strict     min_nodes=900, max_nodes=1100, min_edges=333, max_edges=666, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='strict'
+    1000_Middle_Many_Loose      min_nodes=900, max_nodes=1100, min_edges=333, max_edges=666, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='loose'
+    1000_Middle_Many_Strict     min_nodes=900, max_nodes=1100, min_edges=333, max_edges=666, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='strict'
+
+    1000_Dense_None_Loose       min_nodes=900, max_nodes=1100, min_edges=666, max_edges=1000, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='loose'
+    1000_Dense_None_Strict      min_nodes=900, max_nodes=1100, min_edges=666, max_edges=1000, remove_nodes=False, min_percent_removal=0, max_percent_removal=0, edge_strictness='strict'
+    1000_Dense_Few_Loose        min_nodes=900, max_nodes=1100, min_edges=666, max_edges=1000, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='loose'
+    1000_Dense_Few_Strict       min_nodes=900, max_nodes=1100, min_edges=666, max_edges=1000, remove_nodes=True, min_percent_removal=0, max_percent_removal=33, edge_strictness='strict'
+    1000_Dense_Some_Loose       min_nodes=900, max_nodes=1100, min_edges=666, max_edges=1000, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='loose'
+    1000_Dense_Some_Strict      min_nodes=900, max_nodes=1100, min_edges=666, max_edges=1000, remove_nodes=True, min_percent_removal=33, max_percent_removal=66, edge_strictness='strict'
+    1000_Dense_Many_Loose       min_nodes=900, max_nodes=1100, min_edges=666, max_edges=1000, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='loose'
+    1000_Dense_Many_Strict      min_nodes=900, max_nodes=1100, min_edges=666, max_edges=1000, remove_nodes=True, min_percent_removal=66, max_percent_removal=99, edge_strictness='strict'
+
+
+

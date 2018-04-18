@@ -25,12 +25,12 @@ class RandomizedGrapher():
         Creates a random graph, using passed parameters as limits.
         Defaults to between 10 and 100 nodes, each having between 0 and 50 edges.
         """
-        logger.info('Creating new random graph.')
+        # logger.info('Creating new random graph.')
         new_graph = graph.Graph()
 
         # Determine total node count for graph.
         node_count = random.randint(min_nodes, max_nodes)
-        logger.info('Selected node count is {0}'.format(node_count))
+        # logger.info('Selected node count is {0}'.format(node_count))
 
         # First create all nodes.
         index = 0
@@ -86,7 +86,7 @@ class RandomizedGrapher():
 
             index += 1
 
-        logger.info('Randomized graph created.')
+        # logger.info('Randomized graph created.')
         return new_graph
 
     def copy_graph(self, initial_graph, remove_nodes=False, min_percent_removal=10, max_percent_removal=90):
@@ -101,7 +101,7 @@ class RandomizedGrapher():
         :param max_percent_removal: Maximum possible percent to remove.
         :return: Newly created graph.
         """
-        logger.info('Copying graph with node removal set to {0}'.format(remove_nodes))
+        # logger.info('Copying graph with node removal set to {0}'.format(remove_nodes))
 
         # First create new graph.
         new_graph = graph.Graph()
@@ -112,8 +112,8 @@ class RandomizedGrapher():
         if min_percent_removal > max_percent_removal:
             max_percent_removal = min_percent_removal
         percent_to_remove = random.randint(min_percent_removal, max_percent_removal)
-        if remove_nodes:
-            logger.info('{0}% chance to remove a node.'.format(percent_to_remove))
+        # if remove_nodes:
+            # logger.info('{0}% chance to remove a node.'.format(percent_to_remove))
 
         # Iterate through all initial_graph values, creating an equivalent node for each one.
         # Only adding nodes initially helps prevent errors with edge handling.
@@ -148,6 +148,6 @@ class RandomizedGrapher():
                 new_graph.remove_node(removal_node.identifier)
                 removal_count += 1
 
-        logger.info('Graph copied with {0} nodes removed.'.format(removal_count))
+        # logger.info('Graph copied with {0} nodes removed.'.format(removal_count))
 
         return new_graph
