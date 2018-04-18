@@ -1,4 +1,34 @@
 
+Guide to Result List Plotting:
+
+    Index 00  =  0x00_Sparse_None_Loose
+    Index 01  =  0x00_Sparse_None_Strict
+    Index 02  =  0x00_Sparse_Few_Loose
+    Index 03  =  0x00_Sparse_Few_Strict
+    Index 04  =  0x00_Sparse_Some_Loose
+    Index 05  =  0x00_Sparse_Some_Strict
+    Index 06  =  0x00_Sparse_Many_Loose
+    Index 07  =  0x00_Sparse_Many_Strict
+
+    Index 08  =  0x00_Middle_None_Loose
+    Index 09  =  0x00_Middle_None_Strict
+    Index 10  =  0x00_Middle_Few_Loose
+    Index 11  =  0x00_Middle_Few_Strict
+    Index 12  =  0x00_Middle_Some_Loose
+    Index 13  =  0x00_Middle_Some_Strict
+    Index 14  =  0x00_Middle_Many_Loose
+    Index 15  =  0x00_Middle_Many_Strict
+
+    Index 16  =  0x00_Dense_None_Loose
+    Index 17  =  0x00_Dense_None_Strict
+    Index 18  =  0x00_Dense_Few_Loose
+    Index 19  =  0x00_Dense_Few_Strict
+    Index 20  =  0x00_Dense_Some_Loose
+    Index 21  =  0x00_Dense_Some_Strict
+    Index 22  =  0x00_Dense_Many_Loose
+    Index 23  =  0x00_Dense_Many_Strict
+
+
 Guide to Result Parameters:
 
 100 Node Guideline:

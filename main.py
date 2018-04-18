@@ -3,6 +3,7 @@ Core/Start of program.
 """
 
 # System Imports.
+from matplotlib import patches, pyplot
 import ast, time
 
 # User Class Imports.
@@ -23,13 +24,19 @@ def main():
     logger.info('Starting program.')
 
     # draw_manual_test_graphs()
+
     # draw_random_graphs()
+
     # draw_full_algorithm()
+
     # run_algorithm_with_result_log(
     #     min_nodes=90, max_nodes=110, min_edges=0, max_edges=33, remove_nodes=False, min_percent_removal=0,
     #     max_percent_removal=0, edge_strictness='loose'
     # )
-    read_and_compute_results()
+
+    # read_and_compute_results()
+
+    plot_results()
 
     # Program termination and clean up.
     logger.info('Terminating program.')
@@ -321,6 +328,425 @@ def read_and_compute_results():
     #         total_time, total_first_graph_creation, total_second_graph_creation, total_edge_sort_time, total_greatest_constraints_time, total_match_time, total_nodes_handled))
 
     logger.testresult(result_avg_dict)
+
+def plot_results():
+    """
+    Reads in values from result_averages and plots results.
+    """
+    # First read in all result average values.
+    file_0100_avg = open('documents/results/0100_Set_Averages.log', 'r')
+    file_0200_avg = open('documents/results/0200_Set_Averages.log', 'r')
+    file_0300_avg = open('documents/results/0300_Set_Averages.log', 'r')
+    file_0400_avg = open('documents/results/0400_Set_Averages.log', 'r')
+    file_0500_avg = open('documents/results/0500_Set_Averages.log', 'r')
+
+    set_0100 = []
+    set_0200 = []
+    set_0300 = []
+    set_0400 = []
+    set_0500 = []
+
+    read_line = file_0100_avg.readline()
+    while read_line != '':
+        if read_line != '\n':
+            set_0100.append(ast.literal_eval(read_line))
+        read_line = file_0100_avg.readline()
+
+    read_line = file_0200_avg.readline()
+    while read_line != '':
+        if read_line != '\n':
+            set_0200.append(ast.literal_eval(read_line))
+        read_line = file_0200_avg.readline()
+
+    read_line = file_0300_avg.readline()
+    while read_line != '':
+        if read_line != '\n':
+            set_0300.append(ast.literal_eval(read_line))
+        read_line = file_0300_avg.readline()
+
+    read_line = file_0400_avg.readline()
+    while read_line != '':
+        if read_line != '\n':
+            set_0400.append(ast.literal_eval(read_line))
+        read_line = file_0400_avg.readline()
+
+    read_line = file_0500_avg.readline()
+    while read_line != '':
+        if read_line != '\n':
+            set_0500.append(ast.literal_eval(read_line))
+        read_line = file_0500_avg.readline()
+
+
+    file_0100_avg.close()
+    file_0200_avg.close()
+    file_0300_avg.close()
+    file_0400_avg.close()
+    file_0500_avg.close()
+
+
+    # Use result values.
+    plot_total_time_vs_node_count(set_0100, set_0200, set_0300, set_0400, set_0500)
+    plot_creation_time_vs_node_count(set_0100, set_0200, set_0300, set_0400, set_0500)
+    plot_algorithm_time_vs_node_count(set_0100, set_0200, set_0300, set_0400, set_0500)
+    plot_sparse_node_matches_vs_node_count(set_0100, set_0200, set_0300, set_0400, set_0500)
+    plot_middle_node_matches_vs_node_count(set_0100, set_0200, set_0300, set_0400, set_0500)
+    plot_dense_node_matches_vs_node_count(set_0100, set_0200, set_0300, set_0400, set_0500)
+
+
+def plot_total_time_vs_node_count(set_0100, set_0200, set_0300, set_0400, set_0500):
+    pyplot.plot(
+        [
+            set_0100[0]['nodes_handled'],
+            set_0200[0]['nodes_handled'],
+            set_0300[0]['nodes_handled'],
+            set_0400[0]['nodes_handled'],
+            set_0500[0]['nodes_handled'],
+        ],
+        [
+            set_0100[0]['total_time'],
+            set_0200[0]['total_time'],
+            set_0300[0]['total_time'],
+            set_0400[0]['total_time'],
+            set_0500[0]['total_time'],
+        ]
+    )
+    pyplot.plot(
+        [
+            set_0100[8]['nodes_handled'],
+            set_0200[8]['nodes_handled'],
+            set_0300[8]['nodes_handled'],
+            set_0400[8]['nodes_handled'],
+            set_0500[8]['nodes_handled'],
+        ],
+        [
+            set_0100[8]['total_time'],
+            set_0200[8]['total_time'],
+            set_0300[8]['total_time'],
+            set_0400[8]['total_time'],
+            set_0500[8]['total_time'],
+        ],
+        'r',
+    )
+    pyplot.plot(
+        [
+            set_0100[16]['nodes_handled'],
+            set_0200[16]['nodes_handled'],
+            set_0300[16]['nodes_handled'],
+            set_0400[16]['nodes_handled'],
+            set_0500[16]['nodes_handled'],
+        ],
+        [
+            set_0100[16]['total_time'],
+            set_0200[16]['total_time'],
+            set_0300[16]['total_time'],
+            set_0400[16]['total_time'],
+            set_0500[16]['total_time'],
+        ],
+        'g',
+    )
+    pyplot.title('Node Count Vs Average Total Time')
+    pyplot.xlabel('Average Node Count')
+    pyplot.ylabel('Average Total Time\nIn Seconds')
+    label_1 = patches.Patch(color='blue', label='Sparse-Connectivity Graph Sets')
+    label_2 = patches.Patch(color='red', label='Middle-Connectivity Graph Sets')
+    label_3 = patches.Patch(color='green', label='Dense-Connectivity Graph Sets')
+    pyplot.legend(handles=[label_1, label_2, label_3])
+    pyplot.show()
+
+def plot_creation_time_vs_node_count(set_0100, set_0200, set_0300, set_0400, set_0500):
+    pyplot.plot([
+        set_0100[0]['nodes_handled'],
+        set_0200[0]['nodes_handled'],
+        set_0300[0]['nodes_handled'],
+        set_0400[0]['nodes_handled'],
+        set_0500[0]['nodes_handled'],
+    ], [
+        (set_0100[0]['first_graph_creation'] + set_0100[0]['second_graph_creation']),
+        (set_0200[0]['first_graph_creation'] + set_0200[0]['second_graph_creation']),
+        (set_0300[0]['first_graph_creation'] + set_0300[0]['second_graph_creation']),
+        (set_0400[0]['first_graph_creation'] + set_0400[0]['second_graph_creation']),
+        (set_0500[0]['first_graph_creation'] + set_0500[0]['second_graph_creation']),
+    ])
+    pyplot.plot(
+        [
+            set_0100[8]['nodes_handled'],
+            set_0200[8]['nodes_handled'],
+            set_0300[8]['nodes_handled'],
+            set_0400[8]['nodes_handled'],
+            set_0500[8]['nodes_handled'],
+        ],
+        [
+            (set_0100[8]['first_graph_creation'] + set_0100[8]['second_graph_creation']),
+            (set_0200[8]['first_graph_creation'] + set_0200[8]['second_graph_creation']),
+            (set_0300[8]['first_graph_creation'] + set_0300[8]['second_graph_creation']),
+            (set_0400[8]['first_graph_creation'] + set_0400[8]['second_graph_creation']),
+            (set_0500[8]['first_graph_creation'] + set_0500[8]['second_graph_creation']),
+        ],
+        'r',
+    )
+    pyplot.plot(
+        [
+            set_0100[16]['nodes_handled'],
+            set_0200[16]['nodes_handled'],
+            set_0300[16]['nodes_handled'],
+            set_0400[16]['nodes_handled'],
+            set_0500[16]['nodes_handled'],
+        ],
+        [
+            (set_0100[16]['first_graph_creation'] + set_0100[16]['second_graph_creation']),
+            (set_0200[16]['first_graph_creation'] + set_0200[16]['second_graph_creation']),
+            (set_0300[16]['first_graph_creation'] + set_0300[16]['second_graph_creation']),
+            (set_0400[16]['first_graph_creation'] + set_0400[16]['second_graph_creation']),
+            (set_0500[16]['first_graph_creation'] + set_0500[16]['second_graph_creation']),
+        ],
+        'g',
+    )
+    pyplot.title('Node Count Vs Average Graph Creation Time')
+    pyplot.xlabel('Average Node Count')
+    pyplot.ylabel('Average Graph Creation Time\nIn Seconds')
+    label_1 = patches.Patch(color='blue', label='Sparse-Connectivity Graph Sets')
+    label_2 = patches.Patch(color='red', label='Middle-Connectivity Graph Sets')
+    label_3 = patches.Patch(color='green', label='Dense-Connectivity Graph Sets')
+    pyplot.legend(handles=[label_1, label_2, label_3])
+    pyplot.show()
+
+def plot_algorithm_time_vs_node_count(set_0100, set_0200, set_0300, set_0400, set_0500):
+    pyplot.plot([
+        set_0100[0]['nodes_handled'],
+        set_0200[0]['nodes_handled'],
+        set_0300[0]['nodes_handled'],
+        set_0400[0]['nodes_handled'],
+        set_0500[0]['nodes_handled'],
+    ], [
+        (set_0100[0]['edge_sort_time'] + set_0100[0]['greatest_constraints_time'] + set_0100[0]['match_time']),
+        (set_0200[0]['edge_sort_time'] + set_0200[0]['greatest_constraints_time'] + set_0200[0]['match_time']),
+        (set_0300[0]['edge_sort_time'] + set_0300[0]['greatest_constraints_time'] + set_0300[0]['match_time']),
+        (set_0400[0]['edge_sort_time'] + set_0400[0]['greatest_constraints_time'] + set_0400[0]['match_time']),
+        (set_0500[0]['edge_sort_time'] + set_0500[0]['greatest_constraints_time'] + set_0500[0]['match_time']),
+    ])
+    pyplot.plot(
+        [
+            set_0100[8]['nodes_handled'],
+            set_0200[8]['nodes_handled'],
+            set_0300[8]['nodes_handled'],
+            set_0400[8]['nodes_handled'],
+            set_0500[8]['nodes_handled'],
+        ],
+        [
+            (set_0100[8]['edge_sort_time'] + set_0100[8]['greatest_constraints_time'] + set_0100[8]['match_time']),
+            (set_0200[8]['edge_sort_time'] + set_0200[8]['greatest_constraints_time'] + set_0200[8]['match_time']),
+            (set_0300[8]['edge_sort_time'] + set_0300[8]['greatest_constraints_time'] + set_0300[8]['match_time']),
+            (set_0400[8]['edge_sort_time'] + set_0400[8]['greatest_constraints_time'] + set_0400[8]['match_time']),
+            (set_0500[8]['edge_sort_time'] + set_0500[8]['greatest_constraints_time'] + set_0500[8]['match_time']),
+        ],
+        'r',
+    )
+    pyplot.plot(
+        [
+            set_0100[16]['nodes_handled'],
+            set_0200[16]['nodes_handled'],
+            set_0300[16]['nodes_handled'],
+            set_0400[16]['nodes_handled'],
+            set_0500[16]['nodes_handled'],
+        ],
+        [
+            (set_0100[16]['edge_sort_time'] + set_0100[16]['greatest_constraints_time'] + set_0100[16]['match_time']),
+            (set_0200[16]['edge_sort_time'] + set_0200[16]['greatest_constraints_time'] + set_0200[16]['match_time']),
+            (set_0300[16]['edge_sort_time'] + set_0300[16]['greatest_constraints_time'] + set_0300[16]['match_time']),
+            (set_0400[16]['edge_sort_time'] + set_0400[16]['greatest_constraints_time'] + set_0400[16]['match_time']),
+            (set_0500[16]['edge_sort_time'] + set_0500[16]['greatest_constraints_time'] + set_0500[16]['match_time']),
+        ],
+        'g',
+    )
+    pyplot.title('Node Count Vs Average Algorithm Time')
+    pyplot.xlabel('Average Node Count')
+    pyplot.ylabel('Average Algorithm Time\nIn Seconds')
+    label_1 = patches.Patch(color='blue', label='Sparse-Connectivity Graph Sets')
+    label_2 = patches.Patch(color='red', label='Middle-Connectivity Graph Sets')
+    label_3 = patches.Patch(color='green', label='Dense-Connectivity Graph Sets')
+    pyplot.legend(handles=[label_1, label_2, label_3])
+    pyplot.show()
+
+def plot_sparse_node_matches_vs_node_count(set_0100, set_0200, set_0300, set_0400, set_0500):
+    pyplot.plot(
+        [
+            set_0100[2]['nodes_handled'],
+            set_0200[2]['nodes_handled'],
+            set_0300[2]['nodes_handled'],
+            set_0400[2]['nodes_handled'],
+            set_0500[2]['nodes_handled'],
+        ],
+        [
+            set_0100[2]['node_matches'],
+            set_0200[2]['node_matches'],
+            set_0300[2]['node_matches'],
+            set_0400[2]['node_matches'],
+            set_0500[2]['node_matches'],
+        ]
+    )
+    pyplot.plot(
+        [
+            set_0100[4]['nodes_handled'],
+            set_0200[4]['nodes_handled'],
+            set_0300[4]['nodes_handled'],
+            set_0400[4]['nodes_handled'],
+            set_0500[4]['nodes_handled'],
+        ],
+        [
+            set_0100[4]['node_matches'],
+            set_0200[4]['node_matches'],
+            set_0300[4]['node_matches'],
+            set_0400[4]['node_matches'],
+            set_0500[4]['node_matches'],
+        ],
+        'r',
+    )
+    pyplot.plot(
+        [
+            set_0100[6]['nodes_handled'],
+            set_0200[6]['nodes_handled'],
+            set_0300[6]['nodes_handled'],
+            set_0400[6]['nodes_handled'],
+            set_0500[6]['nodes_handled'],
+        ],
+        [
+            set_0100[6]['node_matches'],
+            set_0200[6]['node_matches'],
+            set_0300[6]['node_matches'],
+            set_0400[6]['node_matches'],
+            set_0500[6]['node_matches'],
+        ],
+        'g',
+    )
+    pyplot.title('Sparse-Connectivity Graph\nNode Count Vs Average Matches Found')
+    pyplot.xlabel('Average Node Count')
+    pyplot.ylabel('Average Pairs of Matches Found')
+    label_1 = patches.Patch(color='blue', label='Less than 33% Node Removal')
+    label_2 = patches.Patch(color='red', label='Between 33% and 66% Node Removal')
+    label_3 = patches.Patch(color='green', label='Above 66% Node Removal')
+    pyplot.legend(handles=[label_1, label_2, label_3])
+    pyplot.show()
+
+def plot_middle_node_matches_vs_node_count(set_0100, set_0200, set_0300, set_0400, set_0500):
+    pyplot.plot(
+        [
+            set_0100[10]['nodes_handled'],
+            set_0200[10]['nodes_handled'],
+            set_0300[10]['nodes_handled'],
+            set_0400[10]['nodes_handled'],
+            set_0500[10]['nodes_handled'],
+        ],
+        [
+            set_0100[10]['node_matches'],
+            set_0200[10]['node_matches'],
+            set_0300[10]['node_matches'],
+            set_0400[10]['node_matches'],
+            set_0500[10]['node_matches'],
+        ]
+    )
+    pyplot.plot(
+        [
+            set_0100[12]['nodes_handled'],
+            set_0200[12]['nodes_handled'],
+            set_0300[12]['nodes_handled'],
+            set_0400[12]['nodes_handled'],
+            set_0500[12]['nodes_handled'],
+        ],
+        [
+            set_0100[12]['node_matches'],
+            set_0200[12]['node_matches'],
+            set_0300[12]['node_matches'],
+            set_0400[12]['node_matches'],
+            set_0500[12]['node_matches'],
+        ],
+        'r',
+    )
+    pyplot.plot(
+        [
+            set_0100[14]['nodes_handled'],
+            set_0200[14]['nodes_handled'],
+            set_0300[14]['nodes_handled'],
+            set_0400[14]['nodes_handled'],
+            set_0500[14]['nodes_handled'],
+        ],
+        [
+            set_0100[14]['node_matches'],
+            set_0200[14]['node_matches'],
+            set_0300[14]['node_matches'],
+            set_0400[14]['node_matches'],
+            set_0500[14]['node_matches'],
+        ],
+        'g',
+    )
+    pyplot.title('Middle-Connectivity Graph\nNode Count Vs Average Matches Found')
+    pyplot.xlabel('Average Node Count')
+    pyplot.ylabel('Average Pairs of Matches Found')
+    label_1 = patches.Patch(color='blue', label='Less than 33% Node Removal')
+    label_2 = patches.Patch(color='red', label='Between 33% and 66% Node Removal')
+    label_3 = patches.Patch(color='green', label='Above 66% Node Removal')
+    pyplot.legend(handles=[label_1, label_2, label_3])
+    pyplot.show()
+
+def plot_dense_node_matches_vs_node_count(set_0100, set_0200, set_0300, set_0400, set_0500):
+    pyplot.plot(
+        [
+            set_0100[18]['nodes_handled'],
+            set_0200[18]['nodes_handled'],
+            set_0300[18]['nodes_handled'],
+            set_0400[18]['nodes_handled'],
+            set_0500[18]['nodes_handled'],
+        ],
+        [
+            set_0100[18]['node_matches'],
+            set_0200[18]['node_matches'],
+            set_0300[18]['node_matches'],
+            set_0400[18]['node_matches'],
+            set_0500[18]['node_matches'],
+        ]
+    )
+    pyplot.plot(
+        [
+            set_0100[20]['nodes_handled'],
+            set_0200[20]['nodes_handled'],
+            set_0300[20]['nodes_handled'],
+            set_0400[20]['nodes_handled'],
+            set_0500[20]['nodes_handled'],
+        ],
+        [
+            set_0100[20]['node_matches'],
+            set_0200[20]['node_matches'],
+            set_0300[20]['node_matches'],
+            set_0400[20]['node_matches'],
+            set_0500[20]['node_matches'],
+        ],
+        'r',
+    )
+    pyplot.plot(
+        [
+            set_0100[22]['nodes_handled'],
+            set_0200[22]['nodes_handled'],
+            set_0300[22]['nodes_handled'],
+            set_0400[22]['nodes_handled'],
+            set_0500[22]['nodes_handled'],
+        ],
+        [
+            set_0100[22]['node_matches'],
+            set_0200[22]['node_matches'],
+            set_0300[22]['node_matches'],
+            set_0400[22]['node_matches'],
+            set_0500[22]['node_matches'],
+        ],
+        'g',
+    )
+    pyplot.title('Dense-Connectivity Graph\nNode Count Vs Average Matches Found')
+    pyplot.xlabel('Average Node Count')
+    pyplot.ylabel('Average Pairs of Matches Found')
+    label_1 = patches.Patch(color='blue', label='Less than 33% Node Removal')
+    label_2 = patches.Patch(color='red', label='Between 33% and 66% Node Removal')
+    label_3 = patches.Patch(color='green', label='Above 66% Node Removal')
+    pyplot.legend(handles=[label_1, label_2, label_3])
+    pyplot.show()
+
 
 if __name__ == '__main__':
     main()
