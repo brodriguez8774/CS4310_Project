@@ -238,11 +238,13 @@ class DataMapping():
         # Add arbitrary index labels starting from value the matches ended at.
         temp_index = index
         for node in graph_node_set_1:
+            # label_set_1[node.identifier] = 'NM'
             label_set_1[node.identifier] = temp_index
             temp_index += 1
 
         temp_index = index
         for node in graph_node_set_2:
+            # label_set_2[node.identifier] = 'NM'
             label_set_2[node.identifier] = temp_index
             temp_index += 1
 

@@ -112,7 +112,8 @@ class RandomizedGrapher():
         if min_percent_removal > max_percent_removal:
             max_percent_removal = min_percent_removal
         percent_to_remove = random.randint(min_percent_removal, max_percent_removal)
-        logger.info('{0}% chance to remove a node.'.format(percent_to_remove))
+        if remove_nodes:
+            logger.info('{0}% chance to remove a node.'.format(percent_to_remove))
 
         # Iterate through all initial_graph values, creating an equivalent node for each one.
         # Only adding nodes initially helps prevent errors with edge handling.
@@ -139,7 +140,7 @@ class RandomizedGrapher():
 
             node.add_edge(edges_in=edges_in, edges_out=edges_out)
 
-        # Graph is created. Now remove all items in removal list. Done here so all edges should stay in tact.
+        # Graph is created. Now remove all items in removal list. Done here so all edges should stay intact.
         removal_count = 0
         for removal_node in removal_list:
             # Gaurantee that, at worse case scenario, at least one node will remain in the new graph.

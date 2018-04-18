@@ -76,6 +76,7 @@ class Graph():
         if new_node.name is None:
             count_value = self.auto_count()
             new_node.identifier = count_value
+            new_node.name = new_node.identifier
 
         # Add to node dict and edge_count list.
         self.nodes[new_node.identifier] = new_node

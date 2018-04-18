@@ -24,8 +24,8 @@ def main():
 
     # draw_manual_test_graphs()
     # draw_random_graphs()
-    # draw_full_algorithm()
-    run_algorithm_with_result_log()
+    draw_full_algorithm()
+    # run_algorithm_with_result_log(min_nodes=90, max_nodes=110, min_edges=0, max_edges=33, remove_nodes=False, min_percent_removal=0, max_percent_removal=0)
 
     # Program termination and clean up.
     logger.info('Terminating program.')
@@ -129,30 +129,35 @@ def draw_full_algorithm():
     graph_orig_ranking = algorithm.condense_list(graph_orig_ranking)
     graph_copy_ranking = algorithm.condense_list(graph_copy_ranking)
 
-    # logger.info('Formatted Graph Orig Ranking: {0}'.format(graph_orig_ranking))
-    # logger.info('Formatted Graph Copy Ranking: {0}'.format(graph_copy_ranking))
+    logger.info('Formatted Graph Orig Ranking: {0}'.format(graph_orig_ranking))
+    logger.info('Formatted Graph Copy Ranking: {0}'.format(graph_copy_ranking))
 
-    # Compute second half of algorithm.
-    match_list = algorithm.matching(graph_orig_ranking, graph_copy_ranking)
+    graph_1 = random_grapher.copy_graph(graph_orig)
+    graph_2 = random_grapher.copy_graph(graph_copy)
+    list_1 = list(graph_orig_ranking)
+    list_2 = list(graph_copy_ranking)
 
-    # logger.info('Match List: {0}'.format(match_list))
+    # Compute second half of algorithm with 'loose' edge matching.
+    match_list = algorithm.matching(list_1, list_2, edge_strictness='loose')
+    logger.info('Match List: {0}'.format(match_list))
 
     # Draw data.
-    mapper = data_mapping.DataMapping(graph_orig, graph_copy)
-    mapper.draw_side_by_side_color_maps(vis_labels=True, key=True)
-    mapper.draw_matching_comparison(match_list)
+    mapper_1 = data_mapping.DataMapping(graph_1, graph_2)
+    mapper_1.draw_side_by_side_color_maps(vis_labels=True, key=True)
+    mapper_1.draw_matching_comparison(match_list)
 
 
-    # Switch which graph is the "subgraph" to compare with.
-    match_list = algorithm.matching(graph_copy_ranking, graph_orig_ranking)
-    # logger.info('Match List: {0}'.format(match_list))
+    # Try again with 'strict' edge matching.
+    logger.info('Formatted Graph Orig Ranking: {0}'.format(graph_orig_ranking))
+    logger.info('Formatted Graph Copy Ranking: {0}'.format(graph_copy_ranking))
+
+    match_list = algorithm.matching(graph_orig_ranking, graph_copy_ranking, edge_strictness='strict')
+    logger.info('Match List: {0}'.format(match_list))
 
     # Draw data again.
-    mapper = data_mapping.DataMapping(graph_copy, graph_orig)
-    mapper.draw_side_by_side_color_maps(vis_labels=True, key=True)
-    mapper.draw_matching_comparison(match_list)
-    # This should always match at least one node, proving that input order does matter.
-    # IE: Which graph is considered "the subgraph" does make a difference.
+    mapper_2 = data_mapping.DataMapping(graph_orig, graph_copy)
+    mapper_2.draw_side_by_side_color_maps(vis_labels=True, key=True)
+    mapper_2.draw_matching_comparison(match_list)
 
 def run_algorithm_with_result_log(min_nodes=2, max_nodes=10, min_edges=1, max_edges=5, remove_nodes=False,
                                   min_percent_removal=10, max_percent_removal=90):
@@ -227,6 +232,7 @@ def run_algorithm_with_result_log(min_nodes=2, max_nodes=10, min_edges=1, max_ed
             'number_of_matches': len(match_list),
         }
         logger.testresult(algorithm_results)
+        index += 1
 
 
 if __name__ == '__main__':

@@ -205,7 +205,7 @@ class Algorithm():
 
         return new_list
 
-    def matching(self, orig_node_list, target_node_list, parent_list=None):
+    def matching(self, orig_node_list, target_node_list, parent_list=None, edge_strictness='loose'):
         """
         Attempts to match nodes against target list.
         :param orig_node_list:
@@ -228,31 +228,45 @@ class Algorithm():
 
                 match = True
 
-                # Note: Modified from original algorithm.
-                # Check edge count number first. Due to list ordering, if this fails, then all further comparisons in
-                # target_list will also fail. Thus, break to move onto next node in orig_list.
-                if len(target_node.edges_in) < len(orig_node.edges_in) or len(target_node.edges_out) < len(orig_node.edges_out):
-                    match = False
-                    # logger.info('Failed node edge count check.')
-
                 # Check that "verticies are compatible". Aka, do the are the two nodes contain the same things.
                 if match:
                     if not orig_node.name == target_node.name:
                         match = False
-                        # logger.info('Failed node name check.')
+                        logger.info('Failed node name check.')
                 if match:
                     if not orig_node.identifier == target_node.identifier:
                         match = False
-                        # logger.info('Failed node identifier check.')
+                        logger.info('Failed node identifier check.')
                 if match:
                     if not orig_node.data == target_node.data:
                         match = False
-                        # logger.info('Failed node data check.')
+                        logger.info('Failed node data check.')
 
-                # Check that "constraints from topology of pattern graph to this point are met."
-                # TODO: Basically, iterate through all edge connections and ensure that there is an identical node on
-                # TODO: the other side for each graph.
-                # TODO: Although, if checking for a subtree, broken/missing connections are to be expected. So is this necessary?
+                if match:
+                    # Due to way the random datasets are created, need to be someone lax about enforcing this.
+                    # Thus, only checks for, at most, 66% of the same edges. Also has a mode to only check for 33% edge matching.
+                    if edge_strictness == 'loose':
+                        if len(target_node.edges_in) < (len(orig_node.edges_in)*1/3) or len(target_node.edges_out) < (len(orig_node.edges_out)*1/3):
+                            match = False
+                            logger.info('Failed loose node edge count check.')
+                    elif edge_strictness == 'strict':
+                        if len(target_node.edges_in) < (len(orig_node.edges_in)*2/3) or len(target_node.edges_out) < (len(orig_node.edges_out)*2/3):
+                            match = False
+                            logger.info('Failed strict node edge count check.')
+
+                """
+                    Check that "constraints from topology of pattern graph to this point are met."
+                        IE, Basically, iterate through all edge connections and ensure that there is an identical node
+                        on the other side for each graph.
+                        
+                        NOTE: Due to way random datasets are created, nodes on other side are guaranteed to be the same
+                        so actually implementing this in the current implementation is redundant.
+                        
+                    Saves up to O(n * 2m) where n is the size of the original list and m is the size of the target list.
+                        This is because, it's possible to have a match up to this point for every single n.
+                        Then, if the graph is complete, will have to iterate through the entirety of each n's "edge_in"
+                        and "edge_out" lists. Doing so may require comparing through the entirety of m for each.
+                """
 
                 # If it got this far, then is a valid match. Add to list of matches and remove target from list.
                 # Then break current loop to start iterating through next node in "orig list", since current match was found.
@@ -261,9 +275,15 @@ class Algorithm():
                     target_node_list.remove(target_node)
                     break
 
-                # Note: Modified from algorithm. Does not check if nodes were "already matched in current path."
-                # If orig_node is already matched, then it will have been iterated, so it's irrelevant.
-                # If target_node is matched, then it is removed from target_list so it won't be checked anymore.
-                # Saves up to O(n * m) where n is the size of the original list and m is the size of the target list.
+                """
+                    Note: Modified from algorithm. Does not check if nodes were "already matched in current path."
+                        If orig_node is already matched, then it will have been iterated, so it's irrelevant.
+                        If target_node is matched, then it is removed from target_list so it won't be checked anymore.
+                        
+                    Saves up to O(n *(smaller of n or m)) where n is the size of the original list and m is the size of
+                    the target list.
+                        This is due to having to iterate through the match list n times, and each time, the match list
+                        will at absolute worst, have elements equal in length to the smaller of n or m.
+                """
 
         return matched_nodes
