@@ -54,6 +54,9 @@ end up fairly close for the most part.)
         * Few - Roughly less than 33% of all nodes will be removed.
         * Some - Roughly between 33% and 66% of all nodes will be removed.
         * Many - Roughly more than 66% of all nodes will be removed.
+    * Edge Strictness - Due to data implementation, there are only two "edge strictness" modes:
+        * 'loose' - Checks for only 33% of all edges to match.
+        * 'strict' - Checks for only 66% of all edges to match.
 * Inside each file, the results will be stored inside Python dictionary object representation, with the following
 values (Note that these are stored in "epoch" or "number of seconds since Midnight, Jan, 1, 1970, UTC/GMT timezone):
     * Start Time - Time just before either graph was randomly generated.
