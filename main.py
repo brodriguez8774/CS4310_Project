@@ -160,7 +160,7 @@ def draw_full_algorithm():
     mapper_2.draw_matching_comparison(match_list)
 
 def run_algorithm_with_result_log(min_nodes=2, max_nodes=10, min_edges=1, max_edges=5, remove_nodes=False,
-                                  min_percent_removal=10, max_percent_removal=90):
+                                  min_percent_removal=10, max_percent_removal=90, edge_strictness='loose'):
     """
     Actually runs iterations of algorithm and logs results.
     """
@@ -215,7 +215,7 @@ def run_algorithm_with_result_log(min_nodes=2, max_nodes=10, min_edges=1, max_ed
 
 
         # Run second half of algorithm.
-        match_list = algorithm.matching(graph_copy_ranking, graph_orig_ranking)
+        match_list = algorithm.matching(graph_copy_ranking, graph_orig_ranking, edge_strictness=edge_strictness)
         matching_time = time.time()
 
 

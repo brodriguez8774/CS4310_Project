@@ -262,11 +262,63 @@ class Algorithm():
                         NOTE: Due to way random datasets are created, nodes on other side are guaranteed to be the same
                         so actually implementing this in the current implementation is redundant.
                         
-                    Saves up to O(n * 2m) where n is the size of the original list and m is the size of the target list.
+                    Would save up to O(n * 2m) where n is the size of the original list and m is the size of the target list.
                         This is because, it's possible to have a match up to this point for every single n.
                         Then, if the graph is complete, will have to iterate through the entirety of each n's "edge_in"
                         and "edge_out" lists. Doing so may require comparing through the entirety of m for each.
                 """
+                if match:
+                    edge_match_count = 0
+                    # Determine loose/strict edge requirement.
+                    if edge_strictness == 'strict':
+                        count_requirement = (len(orig_node.edges_in)*2/3) + (len(orig_node.edges_out)*2/3)
+                    else:
+                        count_requirement = (len(orig_node.edges_in) * 1/3) + (len(orig_node.edges_out) * 1/3)
+
+                    # Iterate through all edges in.
+                    for target_edge_node in target_node.edges_in:
+                        edge_match = False
+                        for orig_edge_node in target_node.edges_in:
+                            # Compare name, identifier, and data of nodes.
+                            if orig_node.name == target_node.name:
+                                if orig_node.identifier == target_node.identifier:
+                                    if orig_node.data == target_node.data:
+                                        edge_match = True
+
+                            if edge_match:
+                                break
+                        # If match, add one to match counter.
+                        if edge_match:
+                            edge_match_count += 1
+
+                        # Check if counter meets current loose/strict edge requirement. Break loop if so.
+                        if edge_match_count >= count_requirement:
+                            break
+
+                    # Iterate through all edges out.
+                    for target_edge_node in target_node.edges_out:
+                        edge_match = False
+                        for orig_edge_node in target_node.edges_out:
+                            # Compare name, identifier, and data of nodes.
+                            if orig_node.name == target_node.name:
+                                if orig_node.identifier == target_node.identifier:
+                                    if orig_node.data == target_node.data:
+                                        edge_match = True
+
+                            if edge_match:
+                                break
+                        # If match, add one to match counter.
+                        if edge_match:
+                            edge_match_count += 1
+
+                        # Check if counter meets current loose/strict edge requirement. Break loop if so.
+                        if edge_match_count >= count_requirement:
+                            break
+
+                    # Last check if counter meets current loose/strict edge requirement. Match found if so.
+                    if not edge_match_count >= count_requirement:
+                        match = False
+                        logger.info('Failed full edge match check.')
 
                 # If it got this far, then is a valid match. Add to list of matches and remove target from list.
                 # Then break current loop to start iterating through next node in "orig list", since current match was found.
