@@ -3,7 +3,7 @@ Core/Start of program.
 """
 
 # System Imports.
-import random
+import time
 
 # User Class Imports.
 from resources import graph, logging, randomized_grapher
@@ -24,7 +24,8 @@ def main():
 
     # draw_manual_test_graphs()
     # draw_random_graphs()
-    draw_full_algorithm()
+    # draw_full_algorithm()
+    run_algorithm_with_result_log()
 
     # Program termination and clean up.
     logger.info('Terminating program.')
@@ -101,7 +102,7 @@ def draw_random_graphs():
 
 def draw_full_algorithm():
     """
-    Full algorithm test.
+    Full algorithm and comparison drawing test.
     """
     random_grapher = randomized_grapher.RandomizedGrapher()
     algorithm = alg.Algorithm()
@@ -152,6 +153,81 @@ def draw_full_algorithm():
     mapper.draw_matching_comparison(match_list)
     # This should always match at least one node, proving that input order does matter.
     # IE: Which graph is considered "the subgraph" does make a difference.
+
+def run_algorithm_with_result_log(min_nodes=2, max_nodes=10, min_edges=1, max_edges=5, remove_nodes=False,
+                                  min_percent_removal=10, max_percent_removal=90):
+    """
+    Actually runs iterations of algorithm and logs results.
+    """
+    # Initialize necessary classes.
+    random_grapher = randomized_grapher.RandomizedGrapher()
+    algorithm = alg.Algorithm()
+
+    # Do 100 iterations of current values.
+    index = 0
+    while index < 100:
+
+        # Start Timer
+        start_time = time.time()
+
+
+
+        # Create graphs and sort edge lists.
+        # First graph.
+        graph_orig = random_grapher.create_graph(
+            min_nodes=min_nodes,
+            max_nodes=max_nodes,
+            min_edges=min_edges,
+            max_edges=max_edges
+        )
+        first_graph_creation_time = time.time()
+
+        # Second graph.
+        graph_copy = random_grapher.copy_graph(
+            graph_orig,
+            remove_nodes=remove_nodes,
+            min_percent_removal=min_percent_removal,
+            max_percent_removal=max_percent_removal
+        )
+        second_graph_creation_time = time.time()
+
+
+
+        # Sort graph edges for algorithm.
+        graph_orig.sort_node_edge_lists()
+        graph_copy.sort_node_edge_lists()
+        graph_edge_sort_time = time.time()
+
+
+
+        # Run first half of algorithm and format for second half.
+        graph_orig_ranking = algorithm.greatest_constraints_first(graph_orig.edge_count_list)
+        graph_copy_ranking = algorithm.greatest_constraints_first(graph_copy.edge_count_list)
+        graph_orig_ranking = algorithm.condense_list(graph_orig_ranking)
+        graph_copy_ranking = algorithm.condense_list(graph_copy_ranking)
+        greatest_constraints_time = time.time()
+
+
+
+        # Run second half of algorithm.
+        match_list = algorithm.matching(graph_copy_ranking, graph_orig_ranking)
+        matching_time = time.time()
+
+
+
+        # Record info.
+        # logger.info(match_list)
+        algorithm_results = {
+            'start_time': start_time,
+            'first_graph_creation_time': first_graph_creation_time,
+            'second_graph_creation_time': second_graph_creation_time,
+            'graph_edge_sort_time': graph_edge_sort_time,
+            'greatest_constraints_time': greatest_constraints_time,
+            'matching_time': matching_time,
+            'number_of_matches': len(match_list),
+        }
+        logger.testresult(algorithm_results)
+
 
 if __name__ == '__main__':
     main()
