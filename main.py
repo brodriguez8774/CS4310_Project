@@ -76,13 +76,13 @@ def draw_manual_test_graphs():
     mapper = data_mapping.DataMapping(test_graph_1, test_graph_2)
 
     # Single maps.
-    mapper.draw_bw_map(1, vis_labels=False, show=True, key=True)
-    mapper.draw_color_map(1, vis_labels=False, show=True, key=True)
+    mapper.draw_bw_map(1, vis_labels=False, show=True, key=False)
+    mapper.draw_color_map(1, vis_labels=False, show=True, key=False)
     mapper.draw_bw_map(2, vis_labels=False, show=True)
-    mapper.draw_color_map(2, vis_labels=False, show=True)
+    mapper.draw_color_map(2, vis_labels=False, show=True, key=True)
 
     # Side by side maps.
-    mapper.draw_side_by_side_bw_maps(vis_labels=False, key=True)
+    mapper.draw_side_by_side_bw_maps(vis_labels=False, key=False)
     mapper.draw_side_by_side_color_maps(vis_labels=False, key=True)
 
 def draw_random_graphs():
@@ -93,23 +93,23 @@ def draw_random_graphs():
     random_grapher = randomized_grapher.RandomizedGrapher()
 
     a_graph = random_grapher.create_graph()
-    # a_graph = random_grapher.create_graph(min_nodes=2, max_nodes=10, min_edges=0, max_edges=3)
+    # a_graph = random_grapher.create_graph(min_nodes=5, max_nodes=10, min_edges=0, max_edges=2)
     # a_graph = random_grapher.create_graph(min_nodes=2, max_nodes=10, edge_complete=True)
     a_graph.sort_node_edge_lists()
 
     mapper = data_mapping.DataMapping(a_graph, None)
-    mapper.draw_color_map(1, vis_labels=True, show=True)
+    mapper.draw_color_map(1, vis_labels=False, show=True)
 
-    # Test randomly generated graph that was copied from an original.
-    a_graph_1 = random_grapher.create_graph(min_nodes=2, max_nodes=10, min_edges=0, max_edges=3)
-    a_graph_2 = graph.Graph()
-    for key, value in a_graph_1.nodes.items():
-        a_graph_2.add_node(node=value)
-    a_graph_1.sort_node_edge_lists()
-    a_graph_2.sort_node_edge_lists()
-
-    mapper = data_mapping.DataMapping(a_graph_2, None)
-    mapper.draw_color_map(1, vis_labels=True, show=True)
+    # # Test randomly generated graph that was copied from an original.
+    # a_graph_1 = random_grapher.create_graph(min_nodes=2, max_nodes=10, min_edges=0, max_edges=3)
+    # a_graph_2 = graph.Graph()
+    # for key, value in a_graph_1.nodes.items():
+    #     a_graph_2.add_node(node=value)
+    # a_graph_1.sort_node_edge_lists()
+    # a_graph_2.sort_node_edge_lists()
+    #
+    # mapper = data_mapping.DataMapping(a_graph_2, None)
+    # mapper.draw_color_map(1, vis_labels=True, show=True)
 
 def draw_full_algorithm():
     """

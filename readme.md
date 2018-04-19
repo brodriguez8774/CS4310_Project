@@ -19,6 +19,10 @@ The offical, published paper which was referenced for this project can be locate
 https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-14-S7-S13
 
 
+## Powerpoint Location
+Can be found at https://docs.google.com/presentation/d/1xKKcfbQlTewS2lX00D1-4tvnRIEUNj5gP5O8uUfnRUs/edit?usp=sharing
+
+
 ## Languages
 Created in Python.
 

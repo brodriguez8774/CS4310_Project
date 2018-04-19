@@ -311,6 +311,9 @@ class DataMapping():
             # Edge settings.
             edge_color='#303030',
             alpha=0.5,
+            arrows=True,
+            width=1.0,
+            # width=2.0,
         )
         node_drawing = networkx.draw_networkx_nodes(
             nx_graph,
@@ -321,8 +324,9 @@ class DataMapping():
             # cmap=pyplot.get_cmap('RdGy'),
             node_color=value_map,
             node_size=1500,
+            # node_size=3000,
             alpha=0.6,
-            linewidths=2,
+            linewidths=4,
 
             vmin=vmin,
             vmax=vmax,
@@ -335,6 +339,8 @@ class DataMapping():
             with_labels=True,
             font_weight='bold',
             font_color='black',
+            font_size=12,
+            # font_size=24,
             labels=label_dict,
         )
         pyplot.axis('off')
@@ -390,6 +396,8 @@ class DataMapping():
             edge_color='#303030',
             alpha=0.5,
             arrows=True,
+            width=1.0,
+            # width=2.0,
         )
         node_drawing = networkx.draw_networkx_nodes(
             nx_graph,
@@ -399,6 +407,7 @@ class DataMapping():
             cmap=pyplot.get_cmap('plasma'),
             node_color=value_map,
             node_size=1500,
+            # node_size=3000,
             alpha=0.6,
             linewidths=2,
 
@@ -413,6 +422,8 @@ class DataMapping():
             with_labels=True,
             font_weight='bold',
             font_color='black',
+            font_size=12,
+            # font_size=24,
             labels=label_dict,
         )
         pyplot.axis('off')
