@@ -39,7 +39,6 @@ To use matplotlib, you may need "sudo apt install python3-tk".
 ## Results
 Results can be found in the documents/results folder. Each iteration of tests will have its own save file of data.
 
-For simplicity, the following definitions will hold:
 * All graphs and values will be randomly generated, using varying parameters as general soft-guides. (Due to
 randomization, there is no gauranteed that iterations will hold to given parameters. However, statistically, they should
 end up fairly close for the most part.)
@@ -69,4 +68,3 @@ values (Note that these are stored in "epoch" or "number of seconds since Midnig
     * Greatest Constraints Time - Time to run first major half of algorithm, dubbed "Greatest Constraints".
     * Matching Time - Time to run second major half of algorithm, dubbed "Matching".
     * Number of Matches - Number of total node matches by algorithm.
-
