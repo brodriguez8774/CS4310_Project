@@ -9,9 +9,7 @@ Brandon Rodriguez
 ## Description
 Semester project. An attempt to investigate and implement a published algorithm about Graph Isomorphism.
 
-IE: How similar or disimilar two graphs are.
-
-This is a NP-Complete problem and as such, is expected to have exponential growth more data is iterated through.
+This is a NP-Complete problem and as such, is expected to have exponential growth as more data is iterated through.
 
 
 ## Reference Paper
@@ -35,7 +33,7 @@ Documentation can be found at:
 * https://networkx.github.io/documentation/stable/
 * https://matplotlib.org/users/index.html
 
-To use matplotlib, you need "sudo apt install python3-tk"?
+To use matplotlib, you may need "sudo apt install python3-tk".
 
 
 ## Results
